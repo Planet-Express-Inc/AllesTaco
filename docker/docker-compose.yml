@@ -15,7 +15,7 @@ services:
     volumes:
       - ../backend:/usr/src/app
     depends_on:
-      - db
+      - tacodb
     networks:
       - network1
   
@@ -53,17 +53,23 @@ services:
       - api-proxy
     networks:
       - network1
-  db:
+
+  tacodb:
     image: docker.io/mariadb:latest
     container_name: tacodb
     restart: unless-stopped
+    #ports:
+    #  - "3306:3306"
     environment:
+      DB_MYSQL_HOST: "tacodb"
       MYSQL_ROOT_PASSWORD: "J8FIXMY6IROGCCA84DTuzs"
       MYSQL_DATABASE: "taco"
       MYSQL_USER: "taco"
       MYSQL_PASSWORD: "erb6dbfnsm47ptk90i9sw87"
     volumes:
       - ../database:/var/lib/mysql
+    networks:
+      - network1
 
 networks:
   network1:
