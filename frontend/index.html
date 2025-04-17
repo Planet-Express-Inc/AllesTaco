@@ -3,6 +3,24 @@
 <body>
 <center>
 <h1>Hier ist alles Taco!</h1>
+<p>API: <div id="output">Lade Text...</div></p>
+
+<script>
+  fetch('https://allestaco.niclas-sieveneck.de:5000/taco')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Netzwerkantwort ist nicht Taco');
+      }
+      return response.text();
+    })
+    .then(text => {
+      document.getElementById('output').textContent = text;
+    })
+    .catch(error => {
+      console.error('Mit dem Fetch-Vorgang ist nicht alles Taco:', error);
+      document.getElementById('output').textContent = 'Beim Laden des Texts ist nicht alles Taco.';
+    });
+</script>
 <img src="allestaco_logo.png" alt="Alles Taco!">
 </center>
 </body>
