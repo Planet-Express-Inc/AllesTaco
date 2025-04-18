@@ -15,11 +15,14 @@
       return response.text();
     })
     .then(text => {
-      document.getElementById('outputapi').textContent = text;
+      output = document.getElementById('outputapi');
+      output.textContent = text;
+      output.style.color = 'green';
     })
     .catch(error => {
       console.error('API: Mit dem Fetch-Vorgang ist nicht alles Taco:', error);
       document.getElementById('outputapi').textContent = 'Beim Laden des Texts ist nicht alles Taco.';
+      document.getElementById('outputapi').style.color = 'red';
     });
 
   fetch('https://allestaco.niclas-sieveneck.de:5000/tacodb')
@@ -30,11 +33,14 @@
       return response.text();
     })
     .then(text => {
-      document.getElementById('outputdb').textContent = text;
+      output = document.getElementById('outputdb');
+      output.textContent = text;
+      output.style.color = 'green';
     })
     .catch(error => {
       console.error('DB: Mit dem Fetch-Vorgang ist nicht alles Taco:', error);
       document.getElementById('outputdb').textContent = 'DB: Beim Laden des Texts ist nicht alles Taco.';
+      document.getElementById('outputdb').style.color = 'red';
     });
 </script>
 <img src="allestaco_logo.png" alt="Alles Taco!">
