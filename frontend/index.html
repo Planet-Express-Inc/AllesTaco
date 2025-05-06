@@ -35,7 +35,12 @@
     .then(text => {
       output = document.getElementById('outputdb');
       output.textContent = text;
-      output.style.color = 'green';
+      if(text.includes("Error")) {
+        output.style.color = 'red';
+      }
+      else {
+        output.style.color = 'green';
+      }
     })
     .catch(error => {
       console.error('DB: Mit dem Fetch-Vorgang ist nicht alles Taco:', error);
