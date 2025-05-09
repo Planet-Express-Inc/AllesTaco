@@ -78,7 +78,7 @@ taco.wsgi_app = ProxyFix(
 default_ok = {"status": "ok"}
 
 
-### Routes
+### Routes for testing  #######
 @taco.route('/taco', methods=['GET'])
 def taco_test():
     return "Mit der API ist alles Taco!"
@@ -93,6 +93,44 @@ def taco_test_db():
         result_string = f"Error connecting to MariaDB Platform: {e}"
         print(f"Error connecting to MariaDB Platform: {e}")
     return result_string
+
+
+@taco.route('/v1/login', methods=['POST'])
+def login():
+    pass
+
+@taco.route('/v1/logoff', methods=['POST'])
+def logoff():
+    pass
+
+@taco.route('/v1/register', methods=['POST'])
+def register():
+    pass
+
+@taco.route('/v1/get_article', methods=['POST'])
+def get_article():
+    pass
+
+@taco.route('/v1/new_article', methods=['POST'])
+def new_article():
+    pass
+
+@taco.route('/v1/delete_article', methods=['POST'])
+def delete_article():
+    pass
+
+@taco.route('/v1/get_cart', methods=['POST'])
+def get_cart():
+    pass
+
+@taco.route('/v1/add_cart', methods=['POST'])
+def add_cart():
+    pass
+
+@taco.route('/v1/remove_cart', methods=['POST'])
+def remove_cart():
+    pass
+
 
 
 # Gerneric errror handler
