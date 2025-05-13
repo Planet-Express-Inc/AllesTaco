@@ -104,6 +104,18 @@ def is_json_empty(json_obj):
     return len(json_obj) <= 2
 
 
+def json_exctract_and_validate(json_obj:json, keys: list):
+    result = {}
+    for key in keys:
+        try:
+            print(key) #################
+            result[key] = json_obj.get(key)
+            print(json_obj.get(key))
+        except:
+            return False
+    return result
+
+
 ### Routes
 
 ### Routes for testing  #######
@@ -146,7 +158,15 @@ def check_username(username):
 
 @taco.route('/v1/user/register', methods=['POST'])
 def register():
-    pass
+    json_data = request.get_json()
+    data = json_exctract_and_validate(json_data, ["vorname", "nachname", "benutzername", "email", "rolle", "password_encrypt"])
+    print(data) ############
+    if not data:
+        return "Error"
+    result = execute_query("INSERT INTO benutzer(vorname, nachname, benutzername, email, rolle, password_encrypt) VALUES (?, ?, ?, ?, ?, ?)", data)
+    print(result)
+    #return str(result)
+    return "bla"
 
 @taco.route('/v1/article/get', methods=['POST'])
 def get_article():
