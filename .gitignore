@@ -3,4 +3,4 @@ backend/__pycache__
 *.pyc
 database/*
 !database/.gitignore
-
+venv/*

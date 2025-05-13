@@ -58,8 +58,9 @@ services:
     image: docker.io/mariadb:latest
     container_name: tacodb
     restart: unless-stopped
-    #ports:
-    #  - "3306:3306"
+    ##################### For TESTING
+    ports:
+      - "3306:3306"
     environment:
       DB_MYSQL_HOST: "tacodb"
       MYSQL_ROOT_PASSWORD: "J8FIXMY6IROGCCA84DTuzs"

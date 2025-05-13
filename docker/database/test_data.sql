@@ -1,0 +1,1 @@
+INSERT INTO `benutzer` (`benutzer_id`, `vorname`, `nachname`, `benutzername`, `email`, `rolle`) VALUES (NULL, 'Niclas', 'Sieveneck', 'ntr0py', 'info@niclas-sieveneck.de', 'käufer');
