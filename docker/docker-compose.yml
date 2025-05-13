@@ -81,6 +81,7 @@ services:
       - PMA_HOST=tacodb
       - PMA_USER=root
       - PMA_PASSWORD=J8FIXMY6IROGCCA84DTuzs
+      - PMA_CONTROLPASS=taco # Security first :D port only by VPN
     networks:
       - network1
 

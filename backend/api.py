@@ -50,11 +50,11 @@ try:
     # Wait for DB
     time.sleep(5)
     conn = mariadb.connect(
-        user="tacotest",
-        password="sicheres_passwort123",
+        user="taco",
+        password="erb6dbfnsm47ptk90i9sw87",
         host="tacodb",
         port=3306,
-        database="taco_stack_test"
+        database="allestacoDB"
 
     )
 except mariadb.Error as e:
@@ -78,6 +78,24 @@ taco.wsgi_app = ProxyFix(
 default_ok = {"status": "ok"}
 
 
+
+# Executor with senetization
+# Example:
+# SELECT ? FROM artikel WHERE id=?, ["preis","1"]
+def execute_query(query: str, param: list):
+    try:
+        cur.execute(query, param)
+        result = cur.fetchall()
+        result_string = "\n".join([str(row[0]) for row in result])     
+    except mariadb.Error as e:
+        result_string = f"Error connecting to MariaDB Platform: {e}"
+        print(f"Error connecting to MariaDB Platform: {e}")
+        ##### RETURN FOR ERROR???
+    return result_string
+
+
+### Routes
+
 ### Routes for testing  #######
 @taco.route('/taco', methods=['GET'])
 def taco_test():
@@ -94,6 +112,7 @@ def taco_test_db():
         print(f"Error connecting to MariaDB Platform: {e}")
     return result_string
 
+### End testing
 
 @taco.route('/v1/login', methods=['POST'])
 def login():
@@ -102,6 +121,10 @@ def login():
 @taco.route('/v1/logoff', methods=['POST'])
 def logoff():
     pass
+
+@taco.rout('/v1/check_username/<str:username>', methods=['POST'])
+def check_username(username: str):
+    return execute_query("SELECT ? FROM benutzer WHERE benutzername=?", ["id",username])
 
 @taco.route('/v1/register', methods=['POST'])
 def register():

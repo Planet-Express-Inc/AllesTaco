@@ -68,3 +68,29 @@ CREATE TABLE aufrufe (
     anzahl INT,
     FOREIGN KEY (artikel_id) REFERENCES artikel(artikel_id)
 );
+
+
+
+--
+-- Tabellenstruktur für Tabelle `taco_stack_test`
+--
+
+CREATE TABLE taco_stack_test (
+  id int AUTO_INCREMENT PRIMARY KEY,
+  name varchar(255) DEFAULT NULL
+);
+
+--
+-- Daten für Tabelle `taco_stack_test`
+--
+
+INSERT INTO taco_stack_test (id, name) VALUES
+(1, 'Mit der Datenbank ist alles Taco!');
+
+---------------------------------------------
+
+# Rechte für `taco`@`%`
+
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, FILE, INDEX, ALTER, CREATE TEMPORARY TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON *.* TO `taco`@`%` IDENTIFIED BY PASSWORD '*7CA0A190BED49E7D08519F51A8F873A9E2FDEB08';
+
+GRANT ALL PRIVILEGES ON `taco`.* TO `taco`@`%`;
