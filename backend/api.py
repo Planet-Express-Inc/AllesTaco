@@ -1,6 +1,7 @@
 import sys
+import os
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import json
 import time
@@ -52,7 +53,9 @@ try:
     conn = mariadb.connect(
         user="taco",
         password="erb6dbfnsm47ptk90i9sw87",
-        host="tacodb",
+        #host="tacodb",
+        ############################################################## TEST
+        host="194.164.63.79",
         port=3306,
         database="allestacoDB"
 
@@ -82,26 +85,33 @@ default_ok = {"status": "ok"}
 # Executor with senetization
 # Example:
 # SELECT ? FROM artikel WHERE id=?, ["preis","1"]
-def execute_query(query: str, param: list):
+def execute_query(query: str, param: list) -> json:
     try:
         cur.execute(query, param)
-        result = cur.fetchall()
-        result_string = "\n".join([str(row[0]) for row in result])     
+        
+        #result_string = "\n".join([str(row[0]) for row in result])
+        columns = [desc[0] for desc in cur.description]
+        data = cur.fetchall()
+        result = [dict(zip(columns, row)) for row in data]
+        result_json = json.dumps(result, indent=2)
     except mariadb.Error as e:
         result_string = f"Error connecting to MariaDB Platform: {e}"
         print(f"Error connecting to MariaDB Platform: {e}")
         ##### RETURN FOR ERROR???
-    return result_string
+    return result_json
+
+def is_json_empty(json_obj):
+    return len(json_obj) <= 2
 
 
 ### Routes
 
 ### Routes for testing  #######
-@taco.route('/taco', methods=['GET'])
+@taco.route('/v1/system/status/api', methods=['GET'])
 def taco_test():
     return "Mit der API ist alles Taco!"
 
-@taco.route('/tacodb', methods=['GET'])
+@taco.route('/v1/system/status/db', methods=['GET'])
 def taco_test_db():
     try:
         cur.execute("SELECT name FROM taco_stack_test LIMIT 1")
@@ -110,9 +120,15 @@ def taco_test_db():
     except mariadb.Error as e:
         result_string = f"Error connecting to MariaDB Platform: {e}"
         print(f"Error connecting to MariaDB Platform: {e}")
+    print(result_string) ##### DEBUG
     return result_string
 
 ### End testing
+
+# Favicon, because we can. And less errors for modern browsers
+@taco.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(taco.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 @taco.route('/v1/login', methods=['POST'])
 def login():
@@ -122,35 +138,37 @@ def login():
 def logoff():
     pass
 
-@taco.rout('/v1/check_username/<str:username>', methods=['POST'])
-def check_username(username: str):
-    return execute_query("SELECT ? FROM benutzer WHERE benutzername=?", ["id",username])
+@taco.route('/v1/user/username/check/<username>', methods=['POST','GET'])
+def check_username(username):
+    if is_json_empty(execute_query("SELECT benutzer_id FROM benutzer WHERE benutzername=?", [username])):
+        return "False"
+    return "True"
 
-@taco.route('/v1/register', methods=['POST'])
+@taco.route('/v1/user/register', methods=['POST'])
 def register():
     pass
 
-@taco.route('/v1/get_article', methods=['POST'])
+@taco.route('/v1/article/get', methods=['POST'])
 def get_article():
     pass
 
-@taco.route('/v1/new_article', methods=['POST'])
+@taco.route('/v1/article/add', methods=['POST'])
 def new_article():
     pass
 
-@taco.route('/v1/delete_article', methods=['POST'])
+@taco.route('/v1/article/delete', methods=['POST'])
 def delete_article():
     pass
 
-@taco.route('/v1/get_cart', methods=['POST'])
+@taco.route('/v1/cart/get', methods=['POST'])
 def get_cart():
     pass
 
-@taco.route('/v1/add_cart', methods=['POST'])
+@taco.route('/v1/cart/add', methods=['POST'])
 def add_cart():
     pass
 
-@taco.route('/v1/remove_cart', methods=['POST'])
+@taco.route('/v1/cart/remove', methods=['POST'])
 def remove_cart():
     pass
 
@@ -180,7 +198,7 @@ if __name__ == '__main__': # pragma: no cover
             print("Debug enabled!")
     
     # Logging
-    sys.stdout = open('logs/flask_output.log', 'w')
+    #sys.stdout = open('logs/flask_output.log', 'w')
     sys.stderr = open('logs/flask_error.log', 'w')
 
     # Run
