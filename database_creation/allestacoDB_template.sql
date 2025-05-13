@@ -11,7 +11,7 @@ CREATE TABLE benutzer (
     nachname VARCHAR(255) NOT NULL,
     benutzername VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-	password VARCHAR(255) NOT NULL,
+	password_encrypt VARCHAR(255) NOT NULL,
     rolle ENUM('käufer', 'verkäufer') NOT NULL
 );
 

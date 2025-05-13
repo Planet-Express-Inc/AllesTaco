@@ -1,0 +1,10 @@
+[
+    {
+        "vorname": "Niclas",
+        "nachname": "Sieveneck",
+		"benutzername": "ntr0py",
+		"email": "info@niclas-sieveneck.de",
+		"rolle": "käufer",
+		"password_encrypt": "1234"
+    }
+]
