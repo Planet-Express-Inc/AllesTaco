@@ -71,6 +71,19 @@ services:
     networks:
       - network1
 
+  phpmyadmin:
+    image: phpmyadmin
+    restart: unless-stopped
+    ports:
+      - 8082:80
+    environment:
+      - MYSQL_ROOT_PASSWORD=J8FIXMY6IROGCCA84DTuzs
+      - PMA_HOST=tacodb
+      - PMA_USER=root
+      - PMA_PASSWORD=J8FIXMY6IROGCCA84DTuzs
+    networks:
+      - network1
+
 networks:
   network1:
     name: nginx-pm_default
