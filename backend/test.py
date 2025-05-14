@@ -5,18 +5,14 @@ def is_json_empty(json_obj):
     return len(json_obj) == 0
 
 json_obj = ["a"]  # Empty JSON object
-print(is_json_empty(json_obj))
+#print(is_json_empty(json_obj))
 
 
 def json_exctract_and_validate(json_obj:json, keys: list):
     result = {}
-    print(json_obj)
-    print(type(json_obj))
     for key in keys:
         try:
-            print(key) #################
-            result[key] = json_obj.get(key)
-            print(json_obj.get(key))
+            result[key] = json_obj[0].get(key)
         except Exception as e:
             print(e)
             return False

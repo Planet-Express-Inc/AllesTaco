@@ -88,8 +88,10 @@ default_ok = {"status": "ok"}
 def execute_query(query: str, param: list) -> json:
     try:
         cur.execute(query, param)
-        
         #result_string = "\n".join([str(row[0]) for row in result])
+        ############################ CRASH HIER BEI INSERT!
+        ## bsp: INSERT INTO benutzer(vorname, nachname, benutzername, email, rolle, password_encrypt) VALUES ("test","test","test","test","käufer","test"); 
+        ## Abfrage einbauen ob SELECT oder -> INSERT bzw. ohne Return Value
         columns = [desc[0] for desc in cur.description]
         data = cur.fetchall()
         result = [dict(zip(columns, row)) for row in data]
@@ -108,12 +110,21 @@ def json_exctract_and_validate(json_obj:json, keys: list):
     result = {}
     for key in keys:
         try:
-            print(key) #################
-            result[key] = json_obj.get(key)
-            print(json_obj.get(key))
-        except:
+            result[key] = json_obj[0].get(key)
+        except Exception as e:
+            print(e)
             return False
     return result
+
+# sort parameters for sql query
+def sort_parameters(input: dict, sort:list) -> list:
+    out = []
+    for item in sort:
+        if item in input:
+            out.append(input[item])
+        else:
+            print("Item not found: " + item)
+    return out
 
 
 ### Routes
@@ -159,10 +170,12 @@ def check_username(username):
 @taco.route('/v1/user/register', methods=['POST'])
 def register():
     json_data = request.get_json()
-    data = json_exctract_and_validate(json_data, ["vorname", "nachname", "benutzername", "email", "rolle", "password_encrypt"])
+    needed_parameters = ["vorname", "nachname", "benutzername", "email", "rolle", "password_encrypt"]
+    data = json_exctract_and_validate(json_data, needed_parameters)
     print(data) ############
     if not data:
         return "Error"
+    data = sort_parameters(data, needed_parameters)
     result = execute_query("INSERT INTO benutzer(vorname, nachname, benutzername, email, rolle, password_encrypt) VALUES (?, ?, ?, ?, ?, ?)", data)
     print(result)
     #return str(result)
