@@ -102,6 +102,13 @@ def execute_query(query: str, param: list) -> json:
         ##### RETURN FOR ERROR???
     return result_json
 
+def execute_edit(query: str, param: list):
+    try:
+        cur.execute(query, param)
+        conn.commit()
+    except mariadb.Error as e:
+        print(f"Fehler beim Einfügen: {e}")
+
 def is_json_empty(json_obj):
     return len(json_obj) <= 2
 
@@ -176,10 +183,8 @@ def register():
     if not data:
         return "Error"
     data = sort_parameters(data, needed_parameters)
-    result = execute_query("INSERT INTO benutzer(vorname, nachname, benutzername, email, rolle, password_encrypt) VALUES (?, ?, ?, ?, ?, ?)", data)
-    print(result)
-    #return str(result)
-    return "bla"
+    execute_edit("INSERT INTO benutzer(vorname, nachname, benutzername, email, rolle, password_encrypt) VALUES (?, ?, ?, ?, ?, ?)", data)
+    return "Success"
 
 @taco.route('/v1/article/get', methods=['POST'])
 def get_article():
