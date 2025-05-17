@@ -179,6 +179,11 @@ def register():
     json_data = request.get_json()
     needed_parameters = ["vorname", "nachname", "benutzername", "email", "rolle", "password_encrypt"]
     data = json_exctract_and_validate(json_data, needed_parameters)
+
+    # Check users existence
+    if check_username(data["benutzername"]) == "True":
+        return "User exists"
+
     print(data) ############
     if not data:
         return "Error"
