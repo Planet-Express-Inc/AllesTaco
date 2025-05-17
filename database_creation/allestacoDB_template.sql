@@ -9,7 +9,7 @@ CREATE TABLE benutzer (
     benutzer_id INT AUTO_INCREMENT PRIMARY KEY,
     vorname VARCHAR(255) NOT NULL,
     nachname VARCHAR(255) NOT NULL,
-    benutzername VARCHAR(255) NOT NULL,
+    benutzername VARCHAR(255) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL,
 	password_encrypt VARCHAR(255) NOT NULL,
     rolle ENUM('käufer', 'verkäufer') NOT NULL
@@ -59,6 +59,7 @@ CREATE TABLE bewertung (
     bewerteter_id INT NOT NULL,
     kommentar TEXT,
     rolle_des_bewerteten ENUM('käufer', 'verkäufer') NOT NULL,
+	sterne INT NOT NULL,
     FOREIGN KEY (bewerter_id) REFERENCES benutzer(benutzer_id),
     FOREIGN KEY (bewerteter_id) REFERENCES benutzer(benutzer_id)
 );
