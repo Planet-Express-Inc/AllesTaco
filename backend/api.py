@@ -1,7 +1,8 @@
 import sys
 import os
 
-from flask import Flask, request, jsonify, send_from_directory
+# TODO: Check if needed:
+from flask import Flask, request, redirect, jsonify, send_from_directory, url_for, session, render_template_string
 from flask_cors import CORS
 import json
 import time
@@ -15,6 +16,7 @@ from werkzeug.exceptions import HTTPException
 
 taco = Flask(__name__)
 
+# TODO: Swagger?
 # Swagger base config
 """
 swagger_config = {
@@ -54,6 +56,7 @@ try:
         user="taco",
         password="erb6dbfnsm47ptk90i9sw87",
         #host="tacodb",
+        # TODO: Prod Server
         ############################################################## TEST
         host="194.164.63.79",
         port=3306,
@@ -80,12 +83,13 @@ taco.wsgi_app = ProxyFix(
 # Default ok for 200
 default_ok = {"status": "ok"}
 
-
+# Secret for sessions
+taco.secret_key = "super_secret_124g+#f43g"
 
 # Executor with senetization
 # Example:
 # SELECT ? FROM artikel WHERE id=?, ["preis","1"]
-def execute_query(query: str, param: list) -> json:
+def execute_query(query: str, param: list) -> dict:
     try:
         cur.execute(query, param)
         #result_string = "\n".join([str(row[0]) for row in result])
@@ -95,12 +99,12 @@ def execute_query(query: str, param: list) -> json:
         columns = [desc[0] for desc in cur.description]
         data = cur.fetchall()
         result = [dict(zip(columns, row)) for row in data]
-        result_json = json.dumps(result, indent=2)
+        #result_json = json.dumps(result, indent=2)
     except mariadb.Error as e:
         result_string = f"Error connecting to MariaDB Platform: {e}"
         print(f"Error connecting to MariaDB Platform: {e}")
         ##### RETURN FOR ERROR???
-    return result_json
+    return result
 
 # Execute an edit e.g. INSERT in DB
 def execute_edit(query: str, param: list):
@@ -110,8 +114,13 @@ def execute_edit(query: str, param: list):
     except mariadb.Error as e:
         print(f"Fehler beim Einfügen: {e}")
 
-def is_json_empty(json_obj):
-    return len(json_obj) <= 2
+#def is_json_empty(json_obj) -> bool:
+#    return len(json_obj) <= 2
+
+def is_json_empty(json_obj: dict) -> bool:
+    if not json_obj:
+        return True
+    return False
 
 # Extract, order and validate completeness of parameters
 def json_exctract_and_validate(json_obj:json, keys: list):
@@ -133,6 +142,13 @@ def sort_parameters(input: dict, sort:list) -> list:
         else:
             print("Item not found: " + item)
     return out
+
+# Check user login
+def check_login() -> bool:
+    if 'username' in session:
+        print(f"Check login for {session['username']}, True")
+        return True
+    return False
 
 
 ### Routes
@@ -165,6 +181,7 @@ def favicon():
 
 ###
 
+# TODO: Output
 @taco.route('/v1/user/login', methods=['POST'])
 def login():
     json_data = request.get_json()
@@ -180,11 +197,21 @@ def login():
     if is_json_empty(result):
         return "False: Auth issue"
     
+    # Save cookie
+    # TODO: Maybe change Primary Key?
+    session['username'] = result[0]["benutzername"]
+    #print(result[0])
+    
+    check_login()
+
     return result
 
+# TODO: Output
 @taco.route('/v1/logoff', methods=['POST'])
 def logoff():
-    pass
+    session.pop('username', None)
+    check_login()
+    return "True"
 
 # TODO: Output
 @taco.route('/v1/user/username/check/<username>', methods=['POST','GET'])

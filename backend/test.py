@@ -24,4 +24,14 @@ test = json.loads('[{"vorname": "Niclas", "nachname": "Sieveneck", "benutzername
 #test = '"vorname": "Niclas", "nachname": "Sieveneck", "benutzername": "ntr0py123", "email": "info@niclas-sieveneck.de", "rolle": "käufer", "password_encrypt": "1234"'
 
 
-print(json_exctract_and_validate(test,["vorname", "nachname", "benutzername", "email", "rolle", "password_encrypt"]))
+#print(json_exctract_and_validate(test,["vorname", "nachname", "benutzername", "email", "rolle", "password_encrypt"]))
+
+
+test = [
+  {
+    "benutzer_id": 6,
+    "benutzername": "ntr0py123"
+  }
+]
+
+print(test["benutzer_id"])
