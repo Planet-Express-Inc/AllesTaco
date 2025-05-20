@@ -124,10 +124,14 @@ def is_json_empty(json_obj: dict) -> bool:
 
 # Extract, order and validate completeness of parameters
 def json_exctract_and_validate(json_obj:json, keys: list):
+    # If list -> extract dict
+    if isinstance(json_obj, list):
+        json_obj = json_obj[0]
+    
     result = {}
     for key in keys:
         try:
-            result[key] = json_obj[0].get(key)
+            result[key] = json_obj.get(key)
         except Exception as e:
             print(e)
             return False
@@ -185,16 +189,18 @@ def favicon():
 @taco.route('/v1/user/login', methods=['POST'])
 def login():
     json_data = request.get_json()
-    needed_parameters = ["benutzername", "rolle", "password_encrypt"]
+    needed_parameters = ["benutzername", "password_encrypt"]
     data = json_exctract_and_validate(json_data, needed_parameters)
     
     # Invalid data
     if not data:
+        print("Login: No Data")
         return "Error"
     
     result = execute_query("SELECT benutzer_id, benutzername FROM benutzer WHERE benutzername=? AND password_encrypt=?", [data["benutzername"], data["password_encrypt"]])
     
     if is_json_empty(result):
+        print("Login: Auth issue")
         return "False: Auth issue"
     
     # Save cookie
@@ -244,13 +250,29 @@ def register():
 def get_article():
     pass
 
+
+### Logged in methods
+# TODO: Output
 @taco.route('/v1/article/add', methods=['POST'])
 def new_article():
-    pass
+    if not check_login():
+        return "No Login"
+    
+    json_data = request.get_json()
+    needed_parameters = ["titel", "verkaeufer_id", "beschreibung", "preis", "bildpfad", "status", "bestand", "kategorie"]
+    data = json_exctract_and_validate(json_data, needed_parameters)
+
+    if not data:
+        return "Error"
+    
+    data = sort_parameters(data, needed_parameters)
+    execute_edit("INSERT INTO artikel(titel, verkaeufer_id, beschreibung, preis, bildpfad, status, bestand, kategorie) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", data)
+    return "Success"
 
 @taco.route('/v1/article/delete', methods=['POST'])
 def delete_article():
     pass
+
 
 @taco.route('/v1/cart/get', methods=['POST'])
 def get_cart():
@@ -279,7 +301,7 @@ def handle_exception(e):
     return response
 
 
-if __name__ == '__main__': # pragma: no cover
+if __name__ == '__main__':
     # Disable debug, when deployed in a container, for production use
     debug = False
     debug = True ###############################################################################################
