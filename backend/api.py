@@ -102,6 +102,7 @@ def execute_query(query: str, param: list) -> json:
         ##### RETURN FOR ERROR???
     return result_json
 
+# Execute an edit e.g. INSERT in DB
 def execute_edit(query: str, param: list):
     try:
         cur.execute(query, param)
@@ -112,7 +113,7 @@ def execute_edit(query: str, param: list):
 def is_json_empty(json_obj):
     return len(json_obj) <= 2
 
-
+# Extract, order and validate completeness of parameters
 def json_exctract_and_validate(json_obj:json, keys: list):
     result = {}
     for key in keys:
@@ -141,6 +142,7 @@ def sort_parameters(input: dict, sort:list) -> list:
 def taco_test():
     return "Mit der API ist alles Taco!"
 
+# State of database
 @taco.route('/v1/system/status/db', methods=['GET'])
 def taco_test_db():
     try:
@@ -155,36 +157,56 @@ def taco_test_db():
 
 ### End testing
 
-# Favicon, because we can. And less errors for modern browsers
+### Static content
+# Favicon, because we can. And less errors for modern browsers in logs
 @taco.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(taco.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
-@taco.route('/v1/login', methods=['POST'])
+###
+
+@taco.route('/v1/user/login', methods=['POST'])
 def login():
-    pass
+    json_data = request.get_json()
+    needed_parameters = ["benutzername", "rolle", "password_encrypt"]
+    data = json_exctract_and_validate(json_data, needed_parameters)
+    
+    # Invalid data
+    if not data:
+        return "Error"
+    
+    result = execute_query("SELECT benutzer_id, benutzername FROM benutzer WHERE benutzername=? AND password_encrypt=?", [data["benutzername"], data["password_encrypt"]])
+    
+    if is_json_empty(result):
+        return "False: Auth issue"
+    
+    return result
 
 @taco.route('/v1/logoff', methods=['POST'])
 def logoff():
     pass
 
+# TODO: Output
 @taco.route('/v1/user/username/check/<username>', methods=['POST','GET'])
 def check_username(username):
     if is_json_empty(execute_query("SELECT benutzer_id FROM benutzer WHERE benutzername=?", [username])):
         return "False"
     return "True"
 
+# TODO: Output, DB error handling
+# Check username availabilty and register user
 @taco.route('/v1/user/register', methods=['POST'])
 def register():
     json_data = request.get_json()
     needed_parameters = ["vorname", "nachname", "benutzername", "email", "rolle", "password_encrypt"]
     data = json_exctract_and_validate(json_data, needed_parameters)
 
+    # TODO: == "True"
     # Check users existence
     if check_username(data["benutzername"]) == "True":
         return "User exists"
 
-    print(data) ############
+    # Invalid data
     if not data:
         return "Error"
     data = sort_parameters(data, needed_parameters)
