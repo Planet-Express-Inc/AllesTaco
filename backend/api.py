@@ -212,6 +212,11 @@ def login():
 
     return result
 
+@taco.route('/v1/user/info/<user_id>', methods=['POST'])
+def get_user(user_id):
+    result = execute_query("SELECT benutzer_id, vorname, nachname, benutzername, email, rolle FROM benutzer WHERE benutzer_id=?", [user_id])
+    return result
+
 # TODO: Output
 @taco.route('/v1/logoff', methods=['POST'])
 def logoff():
