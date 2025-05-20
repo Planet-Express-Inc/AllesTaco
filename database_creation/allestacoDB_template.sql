@@ -17,7 +17,7 @@ CREATE TABLE benutzer (
 
 CREATE TABLE artikel (
     artikel_id INT AUTO_INCREMENT PRIMARY KEY,
-	tiel VARCHAR(255),
+	titel VARCHAR(255),
     verkaeufer_id INT NOT NULL,
     beschreibung TEXT,
     preis DECIMAL(10,2) NOT NULL,
