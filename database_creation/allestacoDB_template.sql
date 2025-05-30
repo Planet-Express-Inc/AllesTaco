@@ -21,7 +21,7 @@ CREATE TABLE artikel (
     verkaeufer_id INT NOT NULL,
     beschreibung TEXT,
     preis DECIMAL(10,2) NOT NULL,
-    bildpfad VARCHAR(255),
+    bild MEDIUMBLOB,
     status ENUM('verfügbar', 'verkauft') NOT NULL,
     bestand INT NOT NULL,
     kategorie VARCHAR(255),

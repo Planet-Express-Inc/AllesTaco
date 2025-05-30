@@ -257,21 +257,21 @@ def get_article():
 
 
 ### Logged in methods
-# TODO: Output
+# TODO: Output, Login!!!
 @taco.route('/v1/article/add', methods=['POST'])
 def new_article():
-    if not check_login():
-        return "No Login"
+    # if not check_login():
+    #    return "No Login"
     
     json_data = request.get_json()
-    needed_parameters = ["titel", "verkaeufer_id", "beschreibung", "preis", "bildpfad", "status", "bestand", "kategorie"]
+    needed_parameters = ["titel", "verkaeufer_id", "beschreibung", "preis", "bild", "status", "bestand", "kategorie"]
     data = json_exctract_and_validate(json_data, needed_parameters)
 
     if not data:
         return "Error"
     
     data = sort_parameters(data, needed_parameters)
-    execute_edit("INSERT INTO artikel(titel, verkaeufer_id, beschreibung, preis, bildpfad, status, bestand, kategorie) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", data)
+    execute_edit("INSERT INTO artikel(titel, verkaeufer_id, beschreibung, preis, bild, status, bestand, kategorie) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", data)
     return "Success"
 
 @taco.route('/v1/article/delete', methods=['POST'])
