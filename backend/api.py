@@ -1,8 +1,9 @@
 import sys
 import os
+import io
 
 # TODO: Check if needed:
-from flask import Flask, request, redirect, jsonify, send_from_directory, url_for, session, render_template_string
+from flask import Flask, request, redirect, jsonify, send_from_directory, url_for, session, render_template_string, send_file, abort
 from flask_cors import CORS
 import json
 import time
@@ -112,10 +113,24 @@ def execute_edit(query: str, param: list):
         cur.execute(query, param)
         conn.commit()
     except mariadb.Error as e:
-        print(f"Fehler beim Einfügen: {e}")
+        print(f"Error while editing DB: {e}")
 
-#def is_json_empty(json_obj) -> bool:
-#    return len(json_obj) <= 2
+# Download blob data from database
+# TODO: Not working. Extractig minetype, Siehe GPT
+def download_data(query: str, param: str):
+    try:
+        cur.execute(query, param)
+        result = cur.fetchone()
+        if result is None:
+            print("File not found")
+            abort(404, "File not found")
+            return False
+        #data, mimetype = result
+        #return send_file(io.BytesIO(data), download_name=param[0], mimetype=mimetype, as_attachment=False)
+        return result
+    except mariadb.Error as e:
+        print(f"Error with DB: {e}")
+
 
 def is_json_empty(json_obj: dict) -> bool:
     if not json_obj:
@@ -224,7 +239,7 @@ def logoff():
     check_login()
     return "True"
 
-# TODO: Output
+# TODO: Output, GET 
 @taco.route('/v1/user/username/check/<username>', methods=['POST','GET'])
 def check_username(username):
     if is_json_empty(execute_query("SELECT benutzer_id FROM benutzer WHERE benutzername=?", [username])):
@@ -251,10 +266,17 @@ def register():
     execute_edit("INSERT INTO benutzer(vorname, nachname, benutzername, email, rolle, password_encrypt) VALUES (?, ?, ?, ?, ?, ?)", data)
     return "Success"
 
-@taco.route('/v1/article/get', methods=['POST'])
-def get_article():
-    pass
+# TODO: Get for Picture -> Issue with JSON
+@taco.route('/v1/article/get/info/<article_id>', methods=['POST'])
+def get_article(article_id):
+    result = execute_query("SELECT artikel_id, titel, verkaeufer_id, beschreibung, preis, status, bestand, kategorie FROM artikel WHERE artikel_id=?", [article_id])
+    return result
 
+# TODO: GET
+@taco.route('/v1/article/get/picture/<article_id>', methods=['POST', 'GET'])
+def get_article_picture(article_id):
+    result = download_data("SELECT bild FROM artikel WHERE artikel_id=?", [article_id])
+    return result
 
 ### Logged in methods
 # TODO: Output, Login!!!
@@ -274,9 +296,14 @@ def new_article():
     execute_edit("INSERT INTO artikel(titel, verkaeufer_id, beschreibung, preis, bild, status, bestand, kategorie) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", data)
     return "Success"
 
-@taco.route('/v1/article/delete', methods=['POST'])
-def delete_article():
-    pass
+# TODO: Output, Login!!!
+@taco.route('/v1/article/delete/<article_id>', methods=['POST'])
+def delete_article(article_id):
+    # if not check_login():
+    #    return "No Login"
+    
+    execute_edit("DELETE FROM artikel WHERE artikel_id=?", [article_id])
+    return "Success"
 
 
 @taco.route('/v1/cart/get', methods=['POST'])

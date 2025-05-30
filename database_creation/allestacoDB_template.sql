@@ -22,6 +22,7 @@ CREATE TABLE artikel (
     beschreibung TEXT,
     preis DECIMAL(10,2) NOT NULL,
     bild MEDIUMBLOB,
+    minetype VARCHAR(255),
     status ENUM('verfügbar', 'verkauft') NOT NULL,
     bestand INT NOT NULL,
     kategorie VARCHAR(255),
