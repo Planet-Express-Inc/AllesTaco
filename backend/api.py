@@ -236,7 +236,7 @@ def login():
     
     if is_json_empty(result):
         print("Login: Auth issue")
-        return "False: Auth issue"
+        return default_error
     
     # Save cookie
     # TODO: Maybe change Primary Key?
@@ -257,7 +257,7 @@ def get_user(user_id):
 def logoff():
     session.pop('username', None)
     check_login()
-    return "True"
+    return default_ok
 
 # TODO: Output, GET 
 @taco.route('/v1/user/username/check/<username>', methods=['POST','GET'])
