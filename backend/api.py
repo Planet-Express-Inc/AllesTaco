@@ -83,8 +83,10 @@ taco.wsgi_app = ProxyFix(
 )
 
 
-# Default ok for 200
+# Default ok for 200 and error
 default_ok = {"status": "ok"}
+
+default_error = {"status": "error"}
 
 # Secret for sessions
 taco.secret_key = "super_secret_124g+#f43g"
@@ -107,6 +109,7 @@ def execute_query(query: str, param: list) -> dict:
         result_string = f"Error connecting to MariaDB Platform: {e}"
         print(f"Error connecting to MariaDB Platform: {e}")
         ##### RETURN FOR ERROR???
+        return default_error
     return result
 
 # Execute an edit e.g. INSERT in DB
@@ -227,7 +230,7 @@ def login():
     # Invalid data
     if not data:
         print("Login: No Data")
-        return "Error"
+        return default_error
     
     result = execute_query("SELECT benutzer_id, benutzername FROM benutzer WHERE benutzername=? AND password_encrypt=?", [data["benutzername"], data["password_encrypt"]])
     
@@ -278,10 +281,10 @@ def register():
 
     # Invalid data
     if not data:
-        return "Error"
+        return default_error
     data = sort_parameters(data, needed_parameters)
     execute_edit("INSERT INTO benutzer(vorname, nachname, benutzername, email, rolle, password_encrypt) VALUES (?, ?, ?, ?, ?, ?)", data)
-    return "Success"
+    return default_ok
 
 # TODO: Get for Picture -> Issue with JSON
 @taco.route('/v1/article/get/info/<article_id>', methods=['POST'])
@@ -308,11 +311,11 @@ def new_article():
     data = json_exctract_and_validate(json_data, needed_parameters)
 
     if not data:
-        return "Error"
+        return default_error
     
     data = sort_parameters(data, needed_parameters)
     execute_edit("INSERT INTO artikel(titel, verkaeufer_id, beschreibung, preis, bild, status, bestand, kategorie) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", data)
-    return "Success"
+    return default_ok
 
 # TODO: Output, Login!!!
 @taco.route('/v1/article/delete/<article_id>', methods=['POST'])
@@ -321,7 +324,7 @@ def delete_article(article_id):
     #    return "No Login"
     
     execute_edit("DELETE FROM artikel WHERE artikel_id=?", [article_id])
-    return "Success"
+    return default_ok
 
 
 @taco.route('/v1/cart/get', methods=['POST'])
