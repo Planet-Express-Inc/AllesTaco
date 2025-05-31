@@ -119,7 +119,7 @@ def execute_edit(query: str, param: list):
 
 # Download blob data from database
 # TODO: Not working. Extractig minetype, Siehe GPT
-def download_data(query: str, param: str):
+def download_data(query: str, param: str, filename:str):
     try:
         cur.execute(query, param)
         result = cur.fetchone()
@@ -140,7 +140,7 @@ def download_data(query: str, param: str):
 
         return send_file(
             io.BytesIO(binary_data),
-            download_name="test.png",
+            download_name=filename,
             mimetype=mimetype,
             as_attachment=False
         )
@@ -292,7 +292,7 @@ def get_article(article_id):
 # TODO: GET
 @taco.route('/v1/article/get/picture/<article_id>', methods=['POST', 'GET'])
 def get_article_picture(article_id):
-    result = download_data("SELECT bild FROM artikel WHERE artikel_id=?", [article_id])
+    result = download_data("SELECT bild FROM artikel WHERE artikel_id=?", [article_id], article_id)
     #print(result)
     return result
 
