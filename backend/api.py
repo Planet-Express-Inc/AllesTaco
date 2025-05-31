@@ -1,6 +1,8 @@
 import sys
 import os
 import io
+import re
+import base64
 
 # TODO: Check if needed:
 from flask import Flask, request, redirect, jsonify, send_from_directory, url_for, session, render_template_string, send_file, abort
@@ -125,9 +127,24 @@ def download_data(query: str, param: str):
             print("File not found")
             abort(404, "File not found")
             return False
-        #data, mimetype = result
-        #return send_file(io.BytesIO(data), download_name=param[0], mimetype=mimetype, as_attachment=False)
-        return result
+        ### New Format #### TEST
+        result = result[0].decode("UTF-8")
+        #print(type(result))
+        #print(result)
+        match = re.match(r"data:(.*?);base64,(.*)", result)
+        #print(match)
+        if not match:
+            abort(400, "File not valid")
+        mimetype, b64_data = match.groups()
+        binary_data = base64.b64decode(b64_data)
+
+        return send_file(
+            io.BytesIO(binary_data),
+            download_name="test.png",
+            mimetype=mimetype,
+            as_attachment=False
+        )
+
     except mariadb.Error as e:
         print(f"Error with DB: {e}")
 
@@ -276,6 +293,7 @@ def get_article(article_id):
 @taco.route('/v1/article/get/picture/<article_id>', methods=['POST', 'GET'])
 def get_article_picture(article_id):
     result = download_data("SELECT bild FROM artikel WHERE artikel_id=?", [article_id])
+    #print(result)
     return result
 
 ### Logged in methods
