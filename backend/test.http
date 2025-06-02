@@ -1,0 +1,29 @@
+### Login
+
+POST https://allestaco.niclas-sieveneck.de:5000/v1/user/login HTTP/1.1
+content-type: application/json
+
+{
+    "benutzername": "ntr0py123", 
+    "rolle": "käufer", 
+    "password_encrypt": "1234"
+}
+
+### User Info
+
+GET https://allestaco.niclas-sieveneck.de:5000/v1/user/info/1 HTTP/1.1
+
+
+### Username check -> True
+
+GET https://allestaco.niclas-sieveneck.de:5000/v1/user/username/check/ntr0py HTTP/1.1
+
+
+### Username check -> False
+
+GET https://allestaco.niclas-sieveneck.de:5000/v1/user/username/check/ntr0py1234234 HTTP/1.1
+
+
+### Logoff
+
+GET https://allestaco.niclas-sieveneck.de:5000/v1/user/logoff HTTP/1.1

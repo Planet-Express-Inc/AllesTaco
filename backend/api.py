@@ -247,13 +247,13 @@ def login():
 
     return result
 
-@taco.route('/v1/user/info/<user_id>', methods=['POST'])
+@taco.route('/v1/user/info/<user_id>', methods=['POST','GET'])
 def get_user(user_id):
     result = execute_query("SELECT benutzer_id, vorname, nachname, benutzername, email, rolle FROM benutzer WHERE benutzer_id=?", [user_id])
     return result
 
 # TODO: Output
-@taco.route('/v1/logoff', methods=['POST'])
+@taco.route('/v1/user/logoff', methods=['POST','GET'])
 def logoff():
     session.pop('username', None)
     check_login()
@@ -287,7 +287,7 @@ def register():
     return default_ok
 
 # TODO: Get for Picture -> Issue with JSON
-@taco.route('/v1/article/get/info/<article_id>', methods=['POST'])
+@taco.route('/v1/article/get/info/<article_id>', methods=['POST','GET'])
 def get_article(article_id):
     result = execute_query("SELECT artikel_id, titel, verkaeufer_id, beschreibung, preis, status, bestand, kategorie FROM artikel WHERE artikel_id=?", [article_id])
     return result
@@ -318,7 +318,7 @@ def new_article():
     return default_ok
 
 # TODO: Output, Login!!!
-@taco.route('/v1/article/delete/<article_id>', methods=['POST'])
+@taco.route('/v1/article/delete/<article_id>', methods=['POST','GET'])
 def delete_article(article_id):
     # if not check_login():
     #    return "No Login"
