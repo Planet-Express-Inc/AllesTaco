@@ -1,3 +1,5 @@
+### Ctrl + Alt + R on the right line to run with VSCODE
+
 ### Login
 
 POST https://allestaco.niclas-sieveneck.de:5000/v1/user/login HTTP/1.1
