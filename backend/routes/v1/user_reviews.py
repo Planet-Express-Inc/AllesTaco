@@ -12,7 +12,7 @@ def article_reviews(foreign_user_id=None):
 
     # Get info
     if request.method == 'GET':
-        result = execute_query("SELECT bewertung_id, bewerter_id, bewerteter_id, kommentar, rolle_des_bewerteten, sterne FROM berwertung WHERE bewerteter_id=? AND bewerter_id=?", [foreign_user_id, session['username']])
+        result = execute_query("SELECT bewertung_id, bewerter_id, bewerteter_id, kommentar, rolle_des_bewerteten, sterne FROM bewertung WHERE bewerteter_id=? AND bewerter_id=?", [foreign_user_id, session['username']])
         return jsonify(result), 200
     
     # Auth after that
@@ -28,7 +28,7 @@ def article_reviews(foreign_user_id=None):
         if foreign_user_id is not None:
             json_data["bewerteter_id"] = foreign_user_id
 
-        needed_parameters = ["bewertung_id", "bewerter_id", "bewerteter_id", "kommentar", "rolle_des_bewerteten", "sterne"]
+        needed_parameters = ["bewerter_id", "bewerteter_id", "kommentar", "rolle_des_bewerteten", "sterne"]
 
         data = json_exctract_and_validate(json_data, needed_parameters)
 
@@ -36,13 +36,13 @@ def article_reviews(foreign_user_id=None):
             return jsonify(default_error), 405
         
         data = sort_parameters(data, needed_parameters)
-        if(execute_edit("INSERT INTO berwertung(bewerter_id, bewerteter_id, kommentar, rolle_des_bewerteten, sterne) VALUES (?, ?, ?, ?, ?)", data)):
+        if(execute_edit("INSERT INTO bewertung(bewerter_id, bewerteter_id, kommentar, rolle_des_bewerteten, sterne) VALUES (?, ?, ?, ?, ?)", data)):
             return jsonify(default_ok), 201
         
         return jsonify(default_error), 405
     
     # Delete
     if request.method == 'DELETE':
-        if(execute_edit("DELETE FROM berwertung WHERE bewerteter_id=? AND bewerter_id=?", [foreign_user_id, session['username']])):
+        if(execute_edit("DELETE FROM bewertung WHERE bewerteter_id=? AND bewerter_id=?", [foreign_user_id, session['username']])):
             return jsonify(default_ok), 204
         return jsonify(default_error), 405

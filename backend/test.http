@@ -128,6 +128,29 @@ Content-Type: application/json
 }
 
 ### views get
-GET {{baseUrl}}/article/views/1
+GET {{baseUrl}}/article/views/2
 
 ### views delete
+DELETE {{baseUrl}}/article/views/3
+
+
+### FILE: user_reviews.py
+
+### Reviews get
+
+GET {{baseUrl}}/user/reviews/1
+
+
+### Reviews add
+POST {{baseUrl}}/user/reviews/6
+Content-Type: application/json 
+
+{
+    "kommentar": "Das ist ein Kommentar",
+    "rolle_des_bewerteten": "käufer",
+    "sterne": 3
+}
+
+
+### Review delete
+DELETE {{baseUrl}}/user/reviews/6
