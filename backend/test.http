@@ -13,6 +13,12 @@ content-type: application/json
     "password_encrypt": "1234"
 }
 
+### Logoff
+
+GET {{baseUrl}}/user/logoff HTTP/1.1
+#Cookie: session_id={{login.response.cookies.session_id}}
+
+
 ### User Info
 
 GET {{baseUrl}}/user/info/1 HTTP/1.1
@@ -58,7 +64,24 @@ DELETE {{baseUrl}}/article/4
 
 GET {{baseUrl}}/article/picture/3
 
-### Logoff
 
-GET {{baseUrl}}/user/logoff HTTP/1.1
-#Cookie: session_id={{login.response.cookies.session_id}}
+### Purchase get
+
+GET {{baseUrl}}/user/purchase
+
+
+### Purchase add
+
+POST {{baseUrl}}/user/purchase
+Content-Type: application/json 
+
+{
+    "artikel_id": 2,
+    "versanddaten": "Heute angekommen!",
+    "kaufpreis": 69.69
+}
+
+
+### Purchase delete
+
+DELETE {{baseUrl}}/user/purchase

@@ -62,12 +62,14 @@ def execute_query(query: str, param: list) -> dict:
     return result
 
 # Execute an edit e.g. INSERT in DB
-def execute_edit(query: str, param: list):
+def execute_edit(query: str, param: list) -> bool:
     try:
         cur.execute(query, param)
         conn.commit()
+        return True
     except mariadb.Error as e:
         print(f"Error while editing DB: {e}")
+    return False
 
 # Download blob data from database
 # TODO: Not working. Extractig minetype, Siehe GPT
