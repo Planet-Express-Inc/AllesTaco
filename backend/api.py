@@ -1,18 +1,9 @@
 import sys
-import os
-import io
-import re
-import base64
 
-# TODO: Check if needed:
-from flask import Flask, request, redirect, jsonify, send_from_directory, url_for, session, render_template_string, send_file, abort
+from flask import Flask
 from flask_cors import CORS
 import json
 
-
-import mariadb
-
-#from flasgger import Swagger
 from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.exceptions import HTTPException
 
@@ -22,36 +13,11 @@ from functions import *
 # Blueprints
 from routes import register_blueprints
 
+# Flasgger
+from swagger import *
+
 taco = Flask(__name__)
 
-# TODO: Swagger?
-# Swagger base config
-"""
-swagger_config = {
-    "spec": {
-        "openapi": "3.0.3", 
-        "info": {
-            "title": "Chat Support - 1.0",
-            "description": "Chat Support API 1.0",
-            "version": "1.0.0",
-        },
-    },
-    "components": {
-        "securitySchemes": {
-            "bearerAuth": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT",
-            }
-        }
-    },
-}
-taco.config["SWAGGER"] = swagger_config
-taco.config["SWAGGER"]['openapi'] = '3.0.3'
-
-# Load yaml
-swagger = Swagger(chat, template_file='swagger/swagger.yaml')
-"""
 # CORS
 CORS(taco)
 
@@ -66,32 +32,6 @@ taco.secret_key = "super_secret_124g+#f43g"
 ### Routes
 # Get from Blueprints
 register_blueprints(taco)
-
-
-### Cart
-@taco.route('/v1/cart', methods=['GET','POST','REMOVE'])
-def cart():
-    if not check_login():
-        return default_error_no_login
-    
-    # session['username']
-    
-    if request.method == 'GET':
-        result = execute_query("SELECT warenkorb_id FROM artikel WHERE kaeufer_id=?", session['username'])
-        print("cart-get: ")
-        print(result)
-        #####
-        return jsonify(result), 200
-
-    elif request.method == 'POST':
-        data = request.json
-        return jsonify({"message": "POST-Methode", "data": data}), 201
-
-    elif request.method == 'DELETE':
-        return jsonify({"message": "DELETE-Methode ausgeführt"}), 204
-
-    return default_error_not_sup, 405
-
 
 
 # Gerneric errror handler
