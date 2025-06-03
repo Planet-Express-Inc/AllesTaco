@@ -84,9 +84,12 @@ taco.wsgi_app = ProxyFix(
 
 
 # Default ok for 200 and error
+# TODO: Jsonify?
 default_ok = {"status": "ok"}
 
 default_error = {"status": "error"}
+
+default_error_not_sup = jsonify({"error": "Not supported"})
 
 # Secret for sessions
 taco.secret_key = "super_secret_124g+#f43g"
@@ -218,8 +221,7 @@ def taco_test_db():
 def favicon():
     return send_from_directory(os.path.join(taco.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
-###
-
+### User
 # TODO: Output
 @taco.route('/v1/user/login', methods=['POST'])
 def login():
@@ -286,7 +288,8 @@ def register():
     execute_edit("INSERT INTO benutzer(vorname, nachname, benutzername, email, rolle, password_encrypt) VALUES (?, ?, ?, ?, ?, ?)", data)
     return default_ok
 
-# TODO: Get for Picture -> Issue with JSON
+### Article
+# TODO: Get for Picture -> Issue with JSON,  NAmen ändern:
 @taco.route('/v1/article/get/info/<article_id>', methods=['POST','GET'])
 def get_article(article_id):
     result = execute_query("SELECT artikel_id, titel, verkaeufer_id, beschreibung, preis, status, bestand, kategorie FROM artikel WHERE artikel_id=?", [article_id])
@@ -300,7 +303,7 @@ def get_article_picture(article_id):
     return result
 
 ### Logged in methods
-# TODO: Output, Login!!!
+# TODO: Login!!!, Methoden auf GET, POST(ADD), Delete umbauen
 @taco.route('/v1/article/add', methods=['POST'])
 def new_article():
     # if not check_login():
@@ -327,17 +330,39 @@ def delete_article(article_id):
     return default_ok
 
 
-@taco.route('/v1/cart/get', methods=['POST'])
-def get_cart():
-    pass
+#### TODO: Ab heur neues Schema. Oben korrigiern
 
-@taco.route('/v1/cart/add', methods=['POST'])
-def add_cart():
-    pass
+##### Skel for Routes
+@taco.route('/v1/skel', methods=['GET','POST','REMOVE'])
+def skel():
+    if request.method == 'GET':
+        return jsonify({"message": "GET-Methode aufgerufen"}), 200
 
-@taco.route('/v1/cart/remove', methods=['POST'])
-def remove_cart():
-    pass
+    elif request.method == 'POST':
+        data = request.json
+        return jsonify({"message": "POST-Methode", "data": data}), 201
+
+    elif request.method == 'DELETE':
+        return jsonify({"message": "DELETE-Methode ausgeführt"}), 204
+
+    return jsonify({"error": "Nicht unterstützt"}), 405
+
+##### SKEL END
+
+### Cart
+@taco.route('/v1/cart', methods=['GET','POST','REMOVE'])
+def cart():
+    if request.method == 'GET':
+        return jsonify({"message": "GET-Methode aufgerufen"}), 200
+
+    elif request.method == 'POST':
+        data = request.json
+        return jsonify({"message": "POST-Methode", "data": data}), 201
+
+    elif request.method == 'DELETE':
+        return jsonify({"message": "DELETE-Methode ausgeführt"}), 204
+
+    return default_error_not_sup, 405
 
 
 
