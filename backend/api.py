@@ -91,6 +91,8 @@ default_error = {"status": "error"}
 
 default_error_not_sup = jsonify({"error": "Not supported"})
 
+default_error_no_login = jsonify({"error": "No login"})
+
 # Secret for sessions
 taco.secret_key = "super_secret_124g+#f43g"
 
@@ -242,7 +244,7 @@ def login():
     
     # Save cookie
     # TODO: Maybe change Primary Key?
-    session['username'] = result[0]["benutzername"]
+    session['username'] = result[0]["benutzer_id"]
     #print(result[0])
     
     check_login()
@@ -307,7 +309,7 @@ def get_article_picture(article_id):
 @taco.route('/v1/article/add', methods=['POST'])
 def new_article():
     # if not check_login():
-    #    return "No Login"
+    #    return default_error_no_login
     
     json_data = request.get_json()
     needed_parameters = ["titel", "verkaeufer_id", "beschreibung", "preis", "bild", "status", "bestand", "kategorie"]
@@ -324,7 +326,7 @@ def new_article():
 @taco.route('/v1/article/delete/<article_id>', methods=['POST','GET'])
 def delete_article(article_id):
     # if not check_login():
-    #    return "No Login"
+    #    return default_error_no_login
     
     execute_edit("DELETE FROM artikel WHERE artikel_id=?", [article_id])
     return default_ok
@@ -337,7 +339,7 @@ def delete_article(article_id):
 def skel():
     if request.method == 'GET':
         return jsonify({"message": "GET-Methode aufgerufen"}), 200
-
+    
     elif request.method == 'POST':
         data = request.json
         return jsonify({"message": "POST-Methode", "data": data}), 201
@@ -352,8 +354,17 @@ def skel():
 ### Cart
 @taco.route('/v1/cart', methods=['GET','POST','REMOVE'])
 def cart():
+    if not check_login():
+        return default_error_no_login
+    
+    # session['username']
+    
     if request.method == 'GET':
-        return jsonify({"message": "GET-Methode aufgerufen"}), 200
+        result = execute_query("SELECT warenkorb_id FROM artikel WHERE kaeufer_id=?", session['username'])
+        print("cart-get: ")
+        print(result)
+        #####
+        return jsonify(result), 200
 
     elif request.method == 'POST':
         data = request.json
