@@ -16,6 +16,7 @@ from routes import register_blueprints
 # Flasgger
 from swagger import *
 
+# Create App
 taco = Flask(__name__)
 
 # CORS
@@ -33,7 +34,6 @@ taco.secret_key = "super_secret_124g+#f43g"
 # Get from Blueprints
 register_blueprints(taco)
 
-
 # Gerneric errror handler
 @taco.errorhandler(HTTPException)
 def handle_exception(e):
@@ -46,7 +46,7 @@ def handle_exception(e):
     response.content_type = "application/json"
     return response
 
-
+# When not imported
 if __name__ == '__main__':
     # Disable debug, when deployed in a container, for production use
     debug = False
