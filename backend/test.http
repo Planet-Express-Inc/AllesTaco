@@ -2,6 +2,8 @@
 
 @baseUrl = http://allestaco.niclas-sieveneck.de:5000/v1
 
+### FILE: user.py
+
 ### Login
 # @name login
 POST {{baseUrl}}/user/login HTTP/1.1
@@ -33,6 +35,7 @@ GET {{baseUrl}}/user/username/check/ntr0py HTTP/1.1
 
 GET {{baseUrl}}/user/username/check/ntr0py1234234 HTTP/1.1
 
+### FILE: article.py
 
 ### Article Add
 
@@ -64,6 +67,7 @@ DELETE {{baseUrl}}/article/4
 
 GET {{baseUrl}}/article/picture/3
 
+### FILE: user_purchase.py
 
 ### Purchase get
 
@@ -85,3 +89,29 @@ Content-Type: application/json
 ### Purchase delete
 
 DELETE {{baseUrl}}/user/purchase
+
+
+### FILE: article_views.py
+
+### views add
+POST {{baseUrl}}/article/views/3
+Content-Type: application/json 
+
+{
+    "anzahl": 69
+}
+
+
+### views add via json
+POST {{baseUrl}}/article/views
+Content-Type: application/json 
+
+{
+    "artikel_id": 2,
+    "anzahl": 69
+}
+
+### views get
+GET {{baseUrl}}/article/views/1
+
+### views delete
