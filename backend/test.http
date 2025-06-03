@@ -60,7 +60,7 @@ GET {{baseUrl}}/article/2
 
 ### Article Delete
 
-DELETE {{baseUrl}}/article/4
+DELETE {{baseUrl}}/article/10
 
 
 ### Article picutre get
