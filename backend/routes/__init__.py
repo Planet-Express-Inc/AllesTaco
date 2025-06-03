@@ -10,3 +10,4 @@ def register_blueprints(app):
     # Load v1 bps
     for bp in v1_blueprints:
         app.register_blueprint(bp)
+        print("Loaded (v1): " + bp.name)
