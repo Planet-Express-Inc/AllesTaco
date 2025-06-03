@@ -6,7 +6,7 @@ article_views_bp = Blueprint('article_views', __name__, url_prefix='/v1')
 
 
 ### Views for aricles
-@article_views_bp.route('/article/views/<artikel_id>', methods=['GET','POST','REMOVE'])
+@article_views_bp.route('/article/views/<artikel_id>', methods=['GET', 'POST', 'DELETE'])
 @article_views_bp.route('/article/views', methods=['GET','POST'])
 def article_views(artikel_id=None):
 
@@ -22,7 +22,7 @@ def article_views(artikel_id=None):
         # Add aricle_id
         if artikel_id is not None:
             json_data["artikel_id"] = artikel_id
-            
+
         needed_parameters = ["artikel_id", "anzahl"]
 
         data = json_exctract_and_validate(json_data, needed_parameters)

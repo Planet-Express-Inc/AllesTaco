@@ -5,7 +5,7 @@ from functions import *
 skel_bp = Blueprint('skel', __name__, url_prefix='/v1')
 
 ###
-@skel_bp.route('/skel', methods=['GET','POST','REMOVE'])
+@skel_bp.route('/skel', methods=['GET','POST','DELETE'])
 def skel():
     if request.method == 'GET':
         return jsonify({"message": "GET-Methode aufgerufen"}), 200

@@ -7,7 +7,7 @@ cart_bp = Blueprint('cart', __name__, url_prefix='/v1')
 
 ### Cart
 # TODO: all
-@cart_bp.route('/cart', methods=['GET','POST','REMOVE'])
+@cart_bp.route('/cart', methods=['GET','POST','DELETE'])
 def cart():
     if not check_login():
         return jsonify(default_error_no_login), 403
