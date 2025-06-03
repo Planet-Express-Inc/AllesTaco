@@ -1,8 +1,10 @@
 ### Ctrl + Alt + R on the right line to run with VSCODE
 
-### Login
+@baseUrl = http://allestaco.niclas-sieveneck.de:5000/v1
 
-POST https://allestaco.niclas-sieveneck.de:5000/v1/user/login HTTP/1.1
+### Login
+# @name login
+POST {{baseUrl}}/user/login HTTP/1.1
 content-type: application/json
 
 {
@@ -13,19 +15,50 @@ content-type: application/json
 
 ### User Info
 
-GET https://allestaco.niclas-sieveneck.de:5000/v1/user/info/1 HTTP/1.1
+GET {{baseUrl}}/user/info/1 HTTP/1.1
 
 
 ### Username check -> True
 
-GET https://allestaco.niclas-sieveneck.de:5000/v1/user/username/check/ntr0py HTTP/1.1
+GET {{baseUrl}}/user/username/check/ntr0py HTTP/1.1
 
 
 ### Username check -> False
 
-GET https://allestaco.niclas-sieveneck.de:5000/v1/user/username/check/ntr0py1234234 HTTP/1.1
+GET {{baseUrl}}/user/username/check/ntr0py1234234 HTTP/1.1
 
+
+### Article Add
+
+POST {{baseUrl}}/article
+Content-Type: application/json 
+
+{
+    "titel": "TacoTest2", 
+    "verkaeufer_id": "1", 
+    "beschreibung": "Ein Test Taco!", 
+    "preis": "10.99", 
+    "bild": "bild", 
+    "status": "verfügbar", 
+    "bestand": 5, 
+    "kategorie": "Taco"
+}
+
+### Article Get
+
+GET {{baseUrl}}/article/2
+
+
+### Article Delete
+
+DELETE {{baseUrl}}/article/4
+
+
+### Article picutre get
+
+GET {{baseUrl}}/article/picture/3
 
 ### Logoff
 
-GET https://allestaco.niclas-sieveneck.de:5000/v1/user/logoff HTTP/1.1
+GET {{baseUrl}}/user/logoff HTTP/1.1
+#Cookie: session_id={{login.response.cookies.session_id}}

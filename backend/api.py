@@ -89,9 +89,9 @@ default_ok = {"status": "ok"}
 
 default_error = {"status": "error"}
 
-default_error_not_sup = jsonify({"error": "Not supported"})
+default_error_not_sup = {"error": "Not supported"}
 
-default_error_no_login = jsonify({"error": "No login"})
+default_error_no_login = {"error": "No login"}
 
 # Secret for sessions
 taco.secret_key = "super_secret_124g+#f43g"
@@ -251,14 +251,15 @@ def login():
 
     return result
 
-@taco.route('/v1/user/info/<user_id>', methods=['POST','GET'])
+@taco.route('/v1/user/info/<user_id>', methods=['GET'])
 def get_user(user_id):
     result = execute_query("SELECT benutzer_id, vorname, nachname, benutzername, email, rolle FROM benutzer WHERE benutzer_id=?", [user_id])
     return result
 
 # TODO: Output
-@taco.route('/v1/user/logoff', methods=['POST','GET'])
+@taco.route('/v1/user/logoff', methods=['GET'])
 def logoff():
+    check_login()
     session.pop('username', None)
     check_login()
     return default_ok
@@ -291,45 +292,45 @@ def register():
     return default_ok
 
 ### Article
-# TODO: Get for Picture -> Issue with JSON,  NAmen ändern:
-@taco.route('/v1/article/get/info/<article_id>', methods=['POST','GET'])
-def get_article(article_id):
-    result = execute_query("SELECT artikel_id, titel, verkaeufer_id, beschreibung, preis, status, bestand, kategorie FROM artikel WHERE artikel_id=?", [article_id])
-    return result
+@taco.route('/v1/article/<article_id>', methods=['GET', 'DELETE'])
+@taco.route('/v1/article', methods=['POST'])
+def article(article_id=None):
+    # Get info
+    print(request.method)
+    if request.method == 'GET':
+        result = execute_query("SELECT artikel_id, titel, verkaeufer_id, beschreibung, preis, status, bestand, kategorie FROM artikel WHERE artikel_id=?", [article_id])
+        return result
+    
+    # Add new
+    if request.method == 'POST':
+        if not check_login():
+            return default_error_no_login
+        
+        json_data = request.get_json()
+        needed_parameters = ["titel", "verkaeufer_id", "beschreibung", "preis", "bild", "status", "bestand", "kategorie"]
+        data = json_exctract_and_validate(json_data, needed_parameters)
 
-# TODO: GET
-@taco.route('/v1/article/get/picture/<article_id>', methods=['POST', 'GET'])
+        if not data:
+            return default_error
+        
+        data = sort_parameters(data, needed_parameters)
+        execute_edit("INSERT INTO artikel(titel, verkaeufer_id, beschreibung, preis, bild, status, bestand, kategorie) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", data)
+        return default_ok
+    
+    # Delete
+    if request.method == 'DELETE':
+        if not check_login():
+            return default_error_no_login
+        
+        execute_edit("DELETE FROM artikel WHERE artikel_id=?", [article_id])
+        return default_ok
+
+# Picture for article
+# TODO: Post for Picure? Or via JSON (-> Article POST)
+@taco.route('/v1/article/picture/<article_id>', methods=['GET'])
 def get_article_picture(article_id):
     result = download_data("SELECT bild FROM artikel WHERE artikel_id=?", [article_id], article_id)
-    #print(result)
     return result
-
-### Logged in methods
-# TODO: Login!!!, Methoden auf GET, POST(ADD), Delete umbauen
-@taco.route('/v1/article/add', methods=['POST'])
-def new_article():
-    # if not check_login():
-    #    return default_error_no_login
-    
-    json_data = request.get_json()
-    needed_parameters = ["titel", "verkaeufer_id", "beschreibung", "preis", "bild", "status", "bestand", "kategorie"]
-    data = json_exctract_and_validate(json_data, needed_parameters)
-
-    if not data:
-        return default_error
-    
-    data = sort_parameters(data, needed_parameters)
-    execute_edit("INSERT INTO artikel(titel, verkaeufer_id, beschreibung, preis, bild, status, bestand, kategorie) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", data)
-    return default_ok
-
-# TODO: Output, Login!!!
-@taco.route('/v1/article/delete/<article_id>', methods=['POST','GET'])
-def delete_article(article_id):
-    # if not check_login():
-    #    return default_error_no_login
-    
-    execute_edit("DELETE FROM artikel WHERE artikel_id=?", [article_id])
-    return default_ok
 
 
 #### TODO: Ab heur neues Schema. Oben korrigiern
@@ -401,7 +402,8 @@ if __name__ == '__main__':
             print("Debug enabled!")
     
     # Logging
-    #sys.stdout = open('logs/flask_output.log', 'w')
+    if not debug:
+        sys.stdout = open('logs/flask_output.log', 'w')
     sys.stderr = open('logs/flask_error.log', 'w')
 
     # Run
