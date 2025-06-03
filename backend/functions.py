@@ -46,10 +46,6 @@ cur = conn.cursor()
 def execute_query(query: str, param: list) -> dict:
     try:
         cur.execute(query, param)
-        #result_string = "\n".join([str(row[0]) for row in result])
-        ############################ CRASH HIER BEI INSERT!
-        ## bsp: INSERT INTO benutzer(vorname, nachname, benutzername, email, rolle, password_encrypt) VALUES ("test","test","test","test","käufer","test"); 
-        ## Abfrage einbauen ob SELECT oder -> INSERT bzw. ohne Return Value
         columns = [desc[0] for desc in cur.description]
         data = cur.fetchall()
         result = [dict(zip(columns, row)) for row in data]

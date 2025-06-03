@@ -35,6 +35,22 @@ GET {{baseUrl}}/user/username/check/ntr0py HTTP/1.1
 
 GET {{baseUrl}}/user/username/check/ntr0py1234234 HTTP/1.1
 
+
+### Register
+
+POST {{baseUrl}}/user/register HTTP/1.1
+content-type: application/json
+
+{
+    "vorname": "Niclas", 
+    "nachname": "Sieveneck", 
+    "benutzername": "ntr0py1234", 
+    "email": "info@niclas-sieveneck.de", 
+    "rolle": "käufer", 
+    "password_encrypt": "1234"
+}
+
+
 ### FILE: article.py
 
 ### Article Add

@@ -20,5 +20,5 @@ def taco_test_db():
     except mariadb.Error as e:
         result_string = f"Error connecting to MariaDB Platform: {e}"
         print(f"Error connecting to MariaDB Platform: {e}")
-    print(result_string) ##### DEBUG
+    print(result_string)
     return result_string
