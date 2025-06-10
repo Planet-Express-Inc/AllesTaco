@@ -1,6 +1,6 @@
 ### Ctrl + Alt + R on the right line to run with VSCODE
 
-@baseUrl = http://allestaco.niclas-sieveneck.de:5000/v1
+@baseUrl = https://allestaco.niclas-sieveneck.de:5000/v1
 
 ### FILE: user.py
 

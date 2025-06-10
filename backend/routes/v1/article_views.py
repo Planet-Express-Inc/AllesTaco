@@ -15,6 +15,10 @@ def article_views(artikel_id=None):
         result = execute_query("SELECT aufrufer_id, artikel_id, anzahl FROM aufrufe WHERE artikel_id=?", [artikel_id])
         return jsonify(result), 200
     
+    # Auth after that
+    if not check_login():
+       return jsonify(default_error_no_login), 403
+
     # Add new
     if request.method == 'POST':
         json_data = request.get_json()
