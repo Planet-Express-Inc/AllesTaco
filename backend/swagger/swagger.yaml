@@ -6,6 +6,7 @@ info:
   version: 1.0.0
 
 paths:
+    ## article_views.py
     /v1/article/views/{article_id}:
       get:
         summary: Get views of an article
@@ -23,7 +24,7 @@ paths:
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/article_views_out'
+                  $ref: '#/components/schemas/article_views'
       delete:
         summary: Deletes all views of an article
         description: Deletes all views of an article by id.
@@ -56,7 +57,79 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/article_views_in'
+                $ref: '#/components/schemas/article_views'
+        responses:
+          '201':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Status_ok'
+          '403':
+            description: no login
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/No_login'
+          '405':
+            description: Method Not Allowed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Method_not_allowed'
+
+    ## article.py
+    /v1/article/{article_id}:
+      get:
+        summary: Get an article
+        description: Response a given article by id.
+        parameters:
+          - name: article_id
+            in: path
+            description: ID of the article
+            required: true
+            schema:
+              type: integer
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/article'
+      delete:
+        summary: Deletes an article
+        description: Deletes an article by id.
+        parameters:
+          - name: article_id
+            in: path
+            description: ID of the article
+            required: true
+            schema:
+              type: integer
+        responses:
+          '204':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Status_ok'
+          '405':
+            description: Method Not Allowed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Method_not_allowed'
+
+    /v1/article:
+      post:
+        summary: Adds a new arcitle
+        description: Adds a new article.
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/article'
         responses:
           '201':
             description: successful operation
@@ -78,10 +151,10 @@ paths:
                   $ref: '#/components/schemas/Method_not_allowed'
 
 
-
-
+### Componets:
 components:
   schemas:
+    # Default shit
     Status_ok:
       type: object
       properties:
@@ -135,12 +208,14 @@ components:
           type: string
           example: No Login
     
-    article_views_out:
+    ## article_views.py
+    article_views:
       type: object
       properties:
         artikel_id:
           type: integer
           example: 1
+          required: false
         anzahl:
           type: integer
           example: 69
@@ -148,12 +223,33 @@ components:
           type: integer
           example: 12
 
-    article_views_in:
+    ## article.py
+    article:
       type: object
       properties:
         artikel_id:
           type: integer
           example: 1
-        anzahl:
+          required: false
+        beschreibung:
+          type: string
+          example: Ein Taco!
+        bestand:
           type: integer
-          example: 69
+          example: 69   
+        kategorie:
+          type: string
+          example: Taco
+        preis:
+          type: float
+          example: 10.99
+        status:
+          type: string
+          enum: [verfügbar, verkauft]
+          example: verfügbar
+        titel:
+          type: string
+          example: Taco mit Fleisch
+        verkaeufer_id:
+          type: integer
+          example: 1
