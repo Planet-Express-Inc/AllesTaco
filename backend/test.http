@@ -83,6 +83,10 @@ DELETE {{baseUrl}}/article/10
 
 GET {{baseUrl}}/article/picture/3
 
+
+### Search for aticle
+GET {{baseUrl}}/article/search/sauce
+
 ### FILE: user_purchase.py
 
 ### Purchase get
