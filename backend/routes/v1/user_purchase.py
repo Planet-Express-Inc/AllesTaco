@@ -6,7 +6,7 @@ user_purchase_bp = Blueprint('user_purchase', __name__, url_prefix='/v1')
 
 ### Get/Remove all purchases for a user
 @user_purchase_bp.route('/user/purchase', methods=['POST', 'GET', 'DELETE'])
-def purchase(kaeufer_id=None):
+def purchase():
     if not check_login():
         return jsonify(default_error_no_login), 403
 

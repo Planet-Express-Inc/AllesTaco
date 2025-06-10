@@ -166,7 +166,80 @@ paths:
         responses:
           '200':
             description: successful operation
-
+    
+    ## user_purchase.py
+    /v1/user/purchase:
+      post:
+        summary: Add a purchase
+        description: Add a purchase to the Database.
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/purchase'
+        responses:
+          '201':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Status_ok'
+          '403':
+            description: no login
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/No_login'
+          '405':
+            description: Method Not Allowed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Method_not_allowed'    
+      get:
+        summary: Get all purchases for the current user
+        description: Get all purchases from the Database for the current user.
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/purchase'
+          '403':
+            description: no login
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/No_login'
+          '405':
+            description: Method Not Allowed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Method_not_allowed'
+      delete:
+        summary: Delete all purchases for the current user
+        description: Delete all purchases from the Database for the current user.
+        responses:
+          '204':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Status_ok'
+          '403':
+            description: no login
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/No_login'
+          '405':
+            description: Method Not Allowed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Method_not_allowed'
 
 
 ### Componets:
