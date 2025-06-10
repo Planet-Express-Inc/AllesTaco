@@ -6,7 +6,7 @@ cart_bp = Blueprint('cart', __name__, url_prefix='/v1')
 
 
 ### Cart
-# TODO: all
+# TODO: all, Swagger!
 @cart_bp.route('/cart', methods=['GET','POST','DELETE'])
 def cart():
     if not check_login():
