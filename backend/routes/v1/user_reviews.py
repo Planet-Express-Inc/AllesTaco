@@ -10,14 +10,14 @@ user_reviews_bp = Blueprint('user_reviews', __name__, url_prefix='/v1')
 @user_reviews_bp.route('/user/reviews', methods=['POST'])
 def article_reviews(foreign_user_id=None):
 
+    # Auth after that
+    if not check_login():
+       return jsonify(default_error_no_login), 403
+
     # Get info
     if request.method == 'GET':
         result = execute_query("SELECT bewertung_id, bewerter_id, bewerteter_id, kommentar, rolle_des_bewerteten, sterne FROM bewertung WHERE bewerteter_id=? AND bewerter_id=?", [foreign_user_id, session['username']])
         return jsonify(result), 200
-    
-    # Auth after that
-    if not check_login():
-       return jsonify(default_error_no_login), 403
 
     # Add new
     if request.method == 'POST':

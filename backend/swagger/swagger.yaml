@@ -242,15 +242,15 @@ paths:
                   $ref: '#/components/schemas/Method_not_allowed'
 
     ## user_reviews.py
-    /v1/user/reviews/<foreign_user_id>:####
+    /v1/user/reviews:
       post:
-        summary: Add a purchase
-        description: Add a purchase to the Database.
+        summary: Add a review
+        description: Add a review
         requestBody:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/purchase'
+                $ref: '#/components/schemas/review'
         responses:
           '201':
             description: successful operation
@@ -269,32 +269,29 @@ paths:
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/Method_not_allowed'    
+                  $ref: '#/components/schemas/Method_not_allowed'
+      
+    /v1/user/reviews/<foreign_user_id>:
       get:
-        summary: Get all purchases for the current user
-        description: Get all purchases from the Database for the current user.
+        summary: Get all reviews for another user
+        description: Get all own reviews for another user.
         responses:
           '200':
             description: successful operation
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/purchase'
+                  $ref: '#/components/schemas/review'
           '403':
             description: no login
             content:
               application/json:
                 schema:
                   $ref: '#/components/schemas/No_login'
-          '405':
-            description: Method Not Allowed
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Method_not_allowed'
+
       delete:
-        summary: Delete all purchases for the current user
-        description: Delete all purchases from the Database for the current user.
+        summary: Delete all reviews for another user
+        description: Delete all own reviews for another user.
         responses:
           '204':
             description: successful operation
@@ -431,9 +428,35 @@ components:
         kauf_id:
           type: integer
           example: 3
+          required: false
         kaupreis:
           type: float
           example: 10.99
         versanddaten:
           type: string
           example: Lieferung am 01.01.2024
+    
+    ## user_reviews.py
+    review:
+      type: object
+      properties:
+        bewerter_id:
+          type: integer
+          example: 6
+        bewerteter_id:
+          type: integer
+          example: 1
+        bewertung_id:
+          type: integer
+          example: 1
+          required: false
+        kommentar:
+          type: string
+          example: Das ist ein Kommentar.
+        rolle_des_bewerteten:
+          type: string
+          enum: [käufer, verkäufer]
+          example: käufer
+        sterne:
+          type: integer
+          example: 4
