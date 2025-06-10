@@ -353,7 +353,7 @@ paths:
         summary: Login for a user
         tags:
           - user
-        description: ALogin for a user.
+        description: Login for a user.
         requestBody:
           content:
             application/json:
@@ -373,6 +373,86 @@ paths:
                 schema:
                   $ref: '#/components/schemas/Method_not_allowed'
 
+    /v1/user/info/{user_id}:
+      get:
+        summary: Info for a user
+        tags:
+          - user
+        description: Get info for a user.
+        parameters:
+          - name: user_id
+            in: path
+            description: ID of the other user
+            required: true
+            schema:
+              type: integer
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/user'
+
+    /v1/user/logoff:
+      get:
+        summary: Logoff the current user
+        tags:
+          - user
+        description: Logoff the current user.
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Status_ok'
+
+    /v1/user/username/check/{username}:
+      get:
+        summary: Check availabilty of a username
+        tags:
+          - user
+        description: Check availabilty of a username.
+        parameters:
+          - name: username
+            in: path
+            description: Username to check.
+            required: true
+            schema:
+              type: integer
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Status_ok'
+
+    /v1/user/register:
+      post:
+        summary: Register a new user
+        tags:
+          - user
+        description: Register a new user.
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_register'
+        responses:
+          '201':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Status_ok'
+          '405':
+            description: Method Not Allowed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Method_not_allowed'
 
 ### Componets:
 components:
