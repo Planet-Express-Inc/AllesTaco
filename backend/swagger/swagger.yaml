@@ -241,6 +241,79 @@ paths:
                 schema:
                   $ref: '#/components/schemas/Method_not_allowed'
 
+    ## user_reviews.py
+    /v1/user/reviews/<foreign_user_id>:####
+      post:
+        summary: Add a purchase
+        description: Add a purchase to the Database.
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/purchase'
+        responses:
+          '201':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Status_ok'
+          '403':
+            description: no login
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/No_login'
+          '405':
+            description: Method Not Allowed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Method_not_allowed'    
+      get:
+        summary: Get all purchases for the current user
+        description: Get all purchases from the Database for the current user.
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/purchase'
+          '403':
+            description: no login
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/No_login'
+          '405':
+            description: Method Not Allowed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Method_not_allowed'
+      delete:
+        summary: Delete all purchases for the current user
+        description: Delete all purchases from the Database for the current user.
+        responses:
+          '204':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Status_ok'
+          '403':
+            description: no login
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/No_login'
+          '405':
+            description: Method Not Allowed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Method_not_allowed'
 
 ### Componets:
 components:
@@ -344,3 +417,23 @@ components:
         verkaeufer_id:
           type: integer
           example: 1
+
+    ## user_purchase.py
+    purchase:
+      type: object
+      properties:
+        artikel_id:
+          type: integer
+          example: 1
+        kaeufer_id:
+          type: integer
+          example: 6
+        kauf_id:
+          type: integer
+          example: 3
+        kaupreis:
+          type: float
+          example: 10.99
+        versanddaten:
+          type: string
+          example: Lieferung am 01.01.2024
