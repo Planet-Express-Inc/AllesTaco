@@ -41,4 +41,4 @@ def article(article_id=None):
 @article_bp.route('/article/picture/<article_id>', methods=['GET'])
 def get_article_picture(article_id):
     result = download_data("SELECT bild FROM artikel WHERE artikel_id=?", [article_id], article_id)
-    return jsonify(result), 200
+    return result, 200

@@ -1,0 +1,156 @@
+openapi: 3.0.3
+info:
+  title: Alles Taco - 1.0
+  description: |-
+    Alles Taco API 1.0
+  version: 1.0.0
+
+paths:
+  /send_message:
+    post:
+      summary: Send a message
+      description: Send a new message in the chat.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status_ok'
+        '400':
+         description: Bad Request
+         content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bad_request'
+          
+          
+  /get_message_id:
+    post:
+      summary: Get message ID
+      description: Get the latest message ID from chat. For later message querys.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message_id'
+          
+          
+  /update_message/{msg_id}:
+    post:
+      summary: Update Messages
+      description: Response with all messages after given ID.
+      parameters:
+        - name: msg_id
+          in: path
+          description: ID of the last received message
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Multi_message'
+        '404':
+          description: Not found        
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Not_found'          
+          
+components:
+  schemas:
+    Status_ok:
+      type: object
+      properties:
+        status:
+          type: string
+          example: ok
+    Bad_request:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 400
+        name:
+          type: string
+          example: Bad Request
+        description:
+          type: string
+          example: The browser (or proxy) sent a request that this server could not understand.
+    Not_found:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 404
+        name:
+          type: string
+          example: Not found
+        description:
+          type: string
+          example: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          example: A Test message!
+        sender:
+          type: string
+          example: TheTester
+        language:
+          type: string
+          example: en
+    Multi_message:
+      type: object
+      properties:
+        1:
+          properties:
+            message:
+              type: string
+              example: Hello?
+            sender:
+              type: string
+              example: John
+            language:
+              type: string
+              example: en
+        2:
+          properties:
+            message:
+              type: string
+              example: Hi, John!
+            sender:
+              type: string
+              example: Peter
+            language:
+              type: string
+              example: en
+        3:
+          properties:
+            message:
+              type: string
+              example: Hi, how are you?
+            sender:
+              type: string
+              example: John
+            language:
+              type: string
+              example: en
+    Message_id:
+      type: object
+      properties:
+        message_id:
+          type: integer
+          example: 5

@@ -19,6 +19,30 @@ from swagger import *
 # Create App
 taco = Flask(__name__)
 
+# Crate flasgger
+swagger_config = {
+    "spec": {
+        "openapi": "3.0.3", 
+        "info": {
+            "title": "Alles Taco - 1.0",
+            "description": "Alles Taco API 1.0",
+            "version": "1.0.0",
+        },
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+            }
+        }
+    },
+}
+
+# Start Swagger/flasgger
+swagger = implement_swagger(taco, swagger_config, 'swagger/swagger.yaml')
+
 # CORS
 CORS(taco)
 
