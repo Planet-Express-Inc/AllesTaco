@@ -150,7 +150,7 @@ paths:
                 schema:
                   $ref: '#/components/schemas/Method_not_allowed'
 
-      ## status.py
+    ## status.py
     /v1/system/status/api:
       get:
         summary: State of the API
