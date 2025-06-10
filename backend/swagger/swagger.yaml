@@ -10,6 +10,8 @@ paths:
     /v1/article/views/{article_id}:
       get:
         summary: Get views of an article
+        tags:
+          - views
         description: Response the views of a given article by id.
         parameters:
           - name: article_id
@@ -27,6 +29,8 @@ paths:
                   $ref: '#/components/schemas/article_views'
       delete:
         summary: Deletes all views of an article
+        tags:
+          - views
         description: Deletes all views of an article by id.
         parameters:
           - name: article_id
@@ -52,6 +56,8 @@ paths:
     /v1/article/views:
       post:
         summary: Edit views of an article
+        tags:
+          - views
         description: Edits the views of a given article by id.
         requestBody:
           content:
@@ -82,6 +88,8 @@ paths:
     /v1/article/{article_id}:
       get:
         summary: Get an article
+        tags:
+          - article
         description: Response a given article by id.
         parameters:
           - name: article_id
@@ -99,6 +107,8 @@ paths:
                   $ref: '#/components/schemas/article'
       delete:
         summary: Deletes an article
+        tags:
+          - article
         description: Deletes an article by id.
         parameters:
           - name: article_id
@@ -124,6 +134,8 @@ paths:
     /v1/article:
       post:
         summary: Adds a new article
+        tags:
+          - article
         description: Adds a new article.
         requestBody:
           content:
@@ -154,6 +166,8 @@ paths:
     /v1/system/status/api:
       get:
         summary: State of the API
+        tags:
+          - system
         description: Shows the status of the API.
         responses:
           '200':
@@ -162,6 +176,8 @@ paths:
     /v1/system/status/db:
       get:
         summary: State of the Database
+        tags:
+          - system
         description: Shows the status of the database.
         responses:
           '200':
@@ -171,6 +187,8 @@ paths:
     /v1/user/purchase:
       post:
         summary: Add a purchase
+        tags:
+          - purchase
         description: Add a purchase to the Database.
         requestBody:
           content:
@@ -198,6 +216,8 @@ paths:
                   $ref: '#/components/schemas/Method_not_allowed'    
       get:
         summary: Get all purchases for the current user
+        tags:
+          - purchase
         description: Get all purchases from the Database for the current user.
         responses:
           '200':
@@ -220,6 +240,8 @@ paths:
                   $ref: '#/components/schemas/Method_not_allowed'
       delete:
         summary: Delete all purchases for the current user
+        tags:
+          - purchase
         description: Delete all purchases from the Database for the current user.
         responses:
           '204':
@@ -245,6 +267,8 @@ paths:
     /v1/user/reviews:
       post:
         summary: Add a review
+        tags:
+          - reviews
         description: Add a review
         requestBody:
           content:
@@ -274,6 +298,8 @@ paths:
     /v1/user/reviews/{foreign_user_id}:
       get:
         summary: Get all reviews for another user
+        tags:
+          - reviews
         description: Get all own reviews for another user.
         responses:
           '200':
@@ -291,6 +317,8 @@ paths:
 
       delete:
         summary: Delete all reviews for another user
+        tags:
+          - reviews
         description: Delete all own reviews for another user.
         responses:
           '204':
@@ -460,3 +488,18 @@ components:
         sterne:
           type: integer
           example: 4
+
+
+
+### Tags:
+tags:
+  - name: article
+    description: Add, Get or Delte atricles.
+  - name: views
+    description: Views for atricles.
+  - name: system
+    description: System status querys.
+  - name: purchase
+    description: Add, Get or Delte purchases.
+  - name: reviews
+    description: Add, Get or Delte reviews.
