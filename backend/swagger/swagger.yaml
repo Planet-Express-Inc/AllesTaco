@@ -603,62 +603,62 @@ components:
           type: integer
           example: 4
 
-      ## user.py
-      user:
-        type: object
-        properties:
-          benutzer_id:
-            type: integer
-            example: 1
-          benutzername:
-            type: string
-            example: ntr0py
-          email:
-            type: string
-            example: info@niclas-sieveneck.de
-          nachname:
-            type: string
-            example: Sieveneck
-          rolle:
-            type: string
-            enum: [käufer, verkäufer]
-            example: käufer
-          vorname:
-            type: string
-            example: Niclas
-        
-      user_register:
-        type: object
-        properties:
-          benutzername:
-            type: string
-            example: ntr0py
-          email:
-            type: string
-            example: info@niclas-sieveneck.de
-          nachname:
-            type: string
-            example: Sieveneck
-          rolle:
-            type: string
-            enum: [käufer, verkäufer]
-            example: käufer
-          vorname:
-            type: string
-            example: Niclas
-          password_encrypt:
-            type: string
-            example: 71d41999a926cf9983d9094b6237a62312ec2e33
+    ## user.py
+    user:
+      type: object
+      properties:
+        benutzer_id:
+          type: integer
+          example: 1
+        benutzername:
+          type: string
+          example: ntr0py
+        email:
+          type: string
+          example: info@niclas-sieveneck.de
+        nachname:
+          type: string
+          example: Sieveneck
+        rolle:
+          type: string
+          enum: [käufer, verkäufer]
+          example: käufer
+        vorname:
+          type: string
+          example: Niclas
+      
+    user_register:
+      type: object
+      properties:
+        benutzername:
+          type: string
+          example: ntr0py
+        email:
+          type: string
+          example: info@niclas-sieveneck.de
+        nachname:
+          type: string
+          example: Sieveneck
+        rolle:
+          type: string
+          enum: [käufer, verkäufer]
+          example: käufer
+        vorname:
+          type: string
+          example: Niclas
+        password_encrypt:
+          type: string
+          example: 71d41999a926cf9983d9094b6237a62312ec2e33
 
-      user_login:
-        type: object
-        properties:
-          benutzername:
-            type: string
-            example: ntr0py
-          password_encrypt:
-            type: string
-            example: 71d41999a926cf9983d9094b6237a62312ec2e33
+    user_login:
+      type: object
+      properties:
+        benutzername:
+          type: string
+          example: ntr0py
+        password_encrypt:
+          type: string
+          example: 71d41999a926cf9983d9094b6237a62312ec2e33
 
 
 
