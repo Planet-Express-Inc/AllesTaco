@@ -11,7 +11,7 @@ paths:
       get:
         summary: Get views of an article
         tags:
-          - views
+          - article-views
         description: Response the views of a given article by id.
         parameters:
           - name: article_id
@@ -30,7 +30,7 @@ paths:
       delete:
         summary: Deletes all views of an article
         tags:
-          - views
+          - article-views
         description: Deletes all views of an article by id.
         parameters:
           - name: article_id
@@ -57,7 +57,7 @@ paths:
       post:
         summary: Edit views of an article
         tags:
-          - views
+          - article-views
         description: Edits the views of a given article by id.
         requestBody:
           content:
@@ -166,7 +166,7 @@ paths:
       get:
         summary: Search for an article
         tags:
-          - article
+          - article-search
         description: Search for an article.
         parameters:
           - name: search_str
@@ -182,7 +182,7 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/article'
-                  
+
     ## status.py
     /v1/system/status/api:
       get:
@@ -289,7 +289,7 @@ paths:
       post:
         summary: Add a review
         tags:
-          - review
+          - article-review
         description: Add a review
         requestBody:
           content:
@@ -320,7 +320,7 @@ paths:
       get:
         summary: Get all reviews for another user
         tags:
-          - review
+          - article-review
         description: Get all own reviews for another user.
         parameters:
           - name: foreign_user_id
@@ -346,7 +346,7 @@ paths:
       delete:
         summary: Delete all reviews for another user
         tags:
-          - review
+          - article-review
         description: Delete all own reviews for another user.
         responses:
           '204':
@@ -373,7 +373,7 @@ paths:
       post:
         summary: Login for a user
         tags:
-          - user
+          - user-login
         description: Login for a user.
         requestBody:
           content:
@@ -419,7 +419,7 @@ paths:
       get:
         summary: Logoff the current user
         tags:
-          - user
+          - user-login
         description: Logoff the current user.
         responses:
           '200':
@@ -454,7 +454,7 @@ paths:
       post:
         summary: Register a new user
         tags:
-          - user
+          - user-login
         description: Register a new user.
         requestBody:
           content:
@@ -687,6 +687,12 @@ components:
 tags:
   - name: article
     description: Add, Get or Delte atricles.
+  - name: article-search
+    description: Search for articles
+  - name: article-views
+    description: Views of articles
+  - name: article-review
+    description: Reviews of articles
   - name: views
     description: Views for atricles.
   - name: system
@@ -696,4 +702,6 @@ tags:
   - name: review
     description: Add, Get or Delte reviews.
   - name: user
-    description: Everything user related, login, logoff...
+    description: Everything user related
+  - name: user-login
+    description: Login, register, logoff
