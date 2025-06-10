@@ -151,7 +151,7 @@ paths:
                   $ref: '#/components/schemas/Method_not_allowed'
 
       ## status.py
-    /v1/status/api:
+    /v1/system/status/api:
       get:
         summary: State of the API
         description: Shows the status of the API.
@@ -159,7 +159,7 @@ paths:
           '200':
             description: successful operation
           
-    /v1/status/db:
+    /v1/system/status/db:
       get:
         summary: State of the Database
         description: Shows the status of the database.
