@@ -18,7 +18,7 @@ def login():
         print("Login: No Data")
         return jsonify({"error": "Login: No Data"}), 405
     
-    result = execute_query("SELECT benutzer_id, benutzername FROM benutzer WHERE benutzername=? AND password_encrypt=?", [data["benutzername"], data["password_encrypt"]])
+    result = execute_query("SELECT benutzer_id, benutzername, vorname, nachname, email, rolle, password_encrypt FROM benutzer WHERE benutzername=? AND password_encrypt=?", [data["benutzername"], data["password_encrypt"]])
     
     if is_json_empty(result):
         print("Login: Auth issue")
