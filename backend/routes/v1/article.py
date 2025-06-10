@@ -43,7 +43,7 @@ def get_article_picture(article_id):
     result = download_data("SELECT bild FROM artikel WHERE artikel_id=?", [article_id], article_id)
     return result, 200
 
-# TODO: Nur nach Beschreibung suchen?
+# Search
 @article_bp.route('/article/search/<search_str>', methods=['GET'])
 def search_article(search_str):
     result = execute_query("SELECT artikel_id, titel, verkaeufer_id, beschreibung, preis, status, bestand, kategorie FROM artikel WHERE titel LIKE ? OR beschreibung LIKE ?", [f"%{search_str}%", f"%{search_str}%"])

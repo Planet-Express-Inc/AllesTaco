@@ -161,7 +161,28 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/Method_not_allowed'
-
+    
+    /v1/article/search/{search_str}:
+      get:
+        summary: Search for an article
+        tags:
+          - article
+        description: Search for an article.
+        parameters:
+          - name: search_str
+            in: path
+            description: Search string
+            required: true
+            schema:
+              type: integer
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/article'
+                  
     ## status.py
     /v1/system/status/api:
       get:
