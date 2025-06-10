@@ -271,7 +271,7 @@ paths:
                 schema:
                   $ref: '#/components/schemas/Method_not_allowed'
       
-    /v1/user/reviews/<foreign_user_id>:
+    /v1/user/reviews/{foreign_user_id}:
       get:
         summary: Get all reviews for another user
         description: Get all own reviews for another user.
