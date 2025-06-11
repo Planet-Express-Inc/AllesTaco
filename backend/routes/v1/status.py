@@ -14,11 +14,11 @@ def taco_test():
 @status_bp.route('/system/status/db', methods=['GET'])
 def taco_test_db():
     try:
-        cur.execute("SELECT name FROM taco_stack_test LIMIT 1")
-        result = cur.fetchall()
-        result_string = "\n".join([str(row[0]) for row in result])
+        result_string = execute_query("SELECT name FROM taco_stack_test LIMIT 1", [])
+        result_string = str(result_string[0]["name"]).replace('"','')
+        return jsonify(result_string), 200
     except mariadb.Error as e:
         result_string = f"Error connecting to MariaDB Platform: {e}"
         print(f"Error connecting to MariaDB Platform: {e}")
-    print(result_string)
-    return result_string
+        print(result_string)
+    return jsonify(result_string), 500

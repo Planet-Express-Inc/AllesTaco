@@ -1,43 +1,42 @@
-import sys
 import io
 import re
 import base64
 
 # TODO: Check if needed:
 from flask import Flask, request, redirect, jsonify, send_from_directory, url_for, session, render_template_string, send_file, abort
-from flask_cors import CORS
 import json
 import time
 
 import mariadb
+from mariadb import ConnectionPool
 
 from default_codes import * 
 
 
-# Connect to Database
-# Connect to MariaDB Platform
-try:
-    # Wait for DB
-    time.sleep(5)
-    conn = mariadb.connect(
-        user="taco",
-        password="erb6dbfnsm47ptk90i9sw87",
-        #host="tacodb",
-        # TODO: Prod Server
-        ############################################################## TEST
-        host="194.164.63.79",
-        port=3306,
-        database="allestacoDB"
+# Connect to Database (generic)
+def connect_database(user: str, password: str, host: str, port: int, database: str, pool_size: int) -> ConnectionPool:
+    # Connect to MariaDB Platform
+    try:
+        # Wait for DB and open Pool
+        time.sleep(5)
+        pool = ConnectionPool(
+            user=user,
+            password=password,
+            host=host,
+            port=port,
+            database=database,
+            pool_name="pool",
+            pool_size=pool_size
+        )
 
-    )
-except mariadb.Error as e:
-    print(f"Error connecting to MariaDB Platform: {e}")
-    sys.exit(1)
+        print("Connected to MariaDB Platform.")
+    except mariadb.Error as e:
+        print(f"Error connecting to MariaDB Platform: {e}")
+        #sys.exit(1)
+        time.sleep(5)
+        raise
 
-# Get Cursor
-cur = conn.cursor()
-
-## END DB
+    return pool
 
 
 # Executor with senetization
@@ -45,34 +44,57 @@ cur = conn.cursor()
 # SELECT ? FROM artikel WHERE id=?, ["preis","1"]
 def execute_query(query: str, param: list) -> dict:
     try:
+        # Get conn
+        conn = pool.get_connection()
+        cur = conn.cursor()
+
         cur.execute(query, param)
         columns = [desc[0] for desc in cur.description]
         data = cur.fetchall()
+
         result = [dict(zip(columns, row)) for row in data]
         #result_json = json.dumps(result, indent=2)
     except mariadb.Error as e:
+        conn.close()
         result_string = f"Error connecting to MariaDB Platform: {e}"
         print(f"Error connecting to MariaDB Platform: {e}")
         ##### RETURN FOR ERROR???
         return default_error
+    finally:
+        if conn:
+            conn.close()
     return result
 
 # Execute an edit e.g. INSERT in DB
 def execute_edit(query: str, param: list) -> bool:
     try:
+        # Get conn
+        conn = pool.get_connection()
+        cur = conn.cursor()
+
         cur.execute(query, param)
         conn.commit()
+
         return True
     except mariadb.Error as e:
+        conn.close()
         print(f"Error while editing DB: {e}")
+    finally:
+        if conn:
+            conn.close()
     return False
 
 # Download blob data from database
 # TODO: Not working. Extractig minetype, Siehe GPT
 def download_data(query: str, param: str, filename:str):
     try:
+        # Get conn
+        conn = pool.get_connection()
+        cur = conn.cursor()
+
         cur.execute(query, param)
         result = cur.fetchone()
+
         if result is None:
             print("File not found")
             abort(404, "File not found")
@@ -96,9 +118,14 @@ def download_data(query: str, param: str, filename:str):
         )
 
     except mariadb.Error as e:
+        conn.close()
         print(f"Error with DB: {e}")
+    finally:
+        if conn:
+            conn.close()
 
 
+### Non DB funcitons
 def is_json_empty(json_obj: dict) -> bool:
     if not json_obj:
         return True
@@ -135,3 +162,16 @@ def check_login() -> bool:
         print(f"Check login for {session['username']}, True")
         return True
     return False
+
+# Global pool
+pool = connect_database(
+            user="taco",
+            password="erb6dbfnsm47ptk90i9sw87",
+            #host="tacodb",
+            # TODO: Prod Server
+            ############################################################## TEST
+            host="194.164.63.79",
+            port=3306,
+            database="allestacoDB",
+            pool_size=10
+            )
