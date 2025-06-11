@@ -343,14 +343,14 @@ paths:
                 schema:
                   $ref: '#/components/schemas/Method_not_allowed'
       
-    /v1/user/reviews/{foreign_user_id}:
+    /v1/user/reviews/{user_id}:
       get:
         summary: Get all reviews for another user
         tags:
           - user-review
-        description: Get all own reviews for another user.
+        description: Get all reviews for another user.
         parameters:
-          - name: foreign_user_id
+          - name: user_id
             in: path
             description: ID of the other user
             required: true
@@ -375,6 +375,13 @@ paths:
         tags:
           - user-review
         description: Delete all own reviews for another user.
+        parameters:
+          - name: user_id
+            in: path
+            description: ID of the other user
+            required: true
+            schema:
+              type: integer
         responses:
           '204':
             description: successful operation
