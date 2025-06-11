@@ -6,4 +6,4 @@ backend/routs/v1/__pycache__
 database/*
 !database/.gitignore
 venv/*
-frontend/Multi
+frontend/
