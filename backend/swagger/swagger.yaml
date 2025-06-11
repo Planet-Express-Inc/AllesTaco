@@ -166,7 +166,7 @@ paths:
       get:
         summary: Search for an article
         tags:
-          - article-muliple
+          - article-search
         description: Search for an article.
         parameters:
           - name: search_str
@@ -722,16 +722,18 @@ tags:
   - name: article
     description: Add, Get or Delte atricles.
   - name: article-muliple
-    description: Get muliple articles or search
+    description: Get muliple articles.
+  - name: article-search
+    description: Get muliple articles by search.
   - name: article-views
     description: Views of articles
   - name: user-review
-    description: Reviews of articles
+    description: Reviews of articles.
   - name: system
     description: System status querys.
   - name: purchase
     description: Add, Get or Delte purchases.
   - name: user
-    description: Everything user related
+    description: Everything user related.
   - name: user-login
-    description: Login, register, logoff
+    description: Login, register, logoff.
