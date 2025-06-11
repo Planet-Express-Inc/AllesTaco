@@ -183,6 +183,33 @@ paths:
                 schema:
                   $ref: '#/components/schemas/article'
 
+    /v1/article/multiple/{first_article}/{last_aticle}:
+      get:
+        summary: Get multiple articles
+        tags:
+          - article-search
+        description: Get multiple articles form a start number, to a end number.
+        parameters:
+          - name: first_aticle
+            in: path
+            description: Article to list
+            required: true
+            schema:
+              type: integer
+          - name: last_aticle
+            in: path
+            description: Last article to list
+            required: true
+            schema:
+              type: integer
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/article'
+
     ## status.py
     /v1/system/status/api:
       get:

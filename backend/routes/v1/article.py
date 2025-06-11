@@ -47,5 +47,10 @@ def get_article_picture(article_id):
 @article_bp.route('/article/search/<search_str>', methods=['GET'])
 def search_article(search_str):
     result = execute_query("SELECT artikel_id, titel, verkaeufer_id, beschreibung, preis, status, bestand, kategorie FROM artikel WHERE titel LIKE ? OR beschreibung LIKE ?", [f"%{search_str}%", f"%{search_str}%"])
-    print(result)
+    return jsonify(result), 200
+
+# Search
+@article_bp.route('/article/multiple/<int:first_article>/<int:last_article>', methods=['GET'])
+def multiple_article(first_article: int, last_article: int):
+    result = execute_query("SELECT artikel_id, titel, verkaeufer_id, beschreibung, preis, status, bestand, kategorie FROM artikel LIMIT ? OFFSET ?", [last_article, first_article])
     return jsonify(result), 200

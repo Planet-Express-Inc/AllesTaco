@@ -87,6 +87,11 @@ GET {{baseUrl}}/article/picture/3
 ### Search for aticle
 GET {{baseUrl}}/article/search/sauce
 
+
+### Muliple aticles
+GET {{baseUrl}}/article/multiple/2/4
+
+
 ### FILE: user_purchase.py
 
 ### Purchase get
