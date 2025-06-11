@@ -174,7 +174,7 @@ paths:
             description: Search string
             required: true
             schema:
-              type: integer
+              type: string
         responses:
           '200':
             description: successful operation
