@@ -7,7 +7,8 @@
 <p>DB: <div id="outputdb">Lade Text...</div></p>
 
 <script>
-  fetch('https://allestaco.niclas-sieveneck.de:5000/v1/system/status/api')
+  let server_base = window.location.protocol + "//" + window.location.hostname + ":5000"
+  fetch(server_base + '/v1/system/status/api')
     .then(response => {
       if (!response.ok) {
         throw new Error('API: Netzwerkantwort ist nicht Taco');
@@ -25,7 +26,7 @@
       document.getElementById('outputapi').style.color = 'red';
     });
 
-  fetch('https://allestaco.niclas-sieveneck.de:5000/v1/system/status/db')
+  fetch(server_base + '/v1/system/status/db')
     .then(response => {
       if (!response.ok) {
         throw new Error('DB: Netzwerkantwort ist nicht Taco');
