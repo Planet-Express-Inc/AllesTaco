@@ -1,0 +1,55 @@
+<html>
+<title>Alles Taco?</title>
+<body>
+<center>
+<h1>Hier ist alles Taco!</h1>
+<p>API: <div id="outputapi">Lade Text...</div></p>
+<p>DB: <div id="outputdb">Lade Text...</div></p>
+
+<script>
+  let server_base = window.location.protocol + "//" + window.location.hostname + ":5000"
+  fetch(server_base + '/v1/system/status/api')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('API: Netzwerkantwort ist nicht Taco');
+      }
+      return response.text();
+    })
+    .then(text => {
+      output = document.getElementById('outputapi');
+      output.textContent = text;
+      output.style.color = 'green';
+    })
+    .catch(error => {
+      console.error('API: Mit dem Fetch-Vorgang ist nicht alles Taco:', error);
+      document.getElementById('outputapi').textContent = 'Beim Laden des Texts ist nicht alles Taco.';
+      document.getElementById('outputapi').style.color = 'red';
+    });
+
+  fetch(server_base + '/v1/system/status/db')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('DB: Netzwerkantwort ist nicht Taco');
+      }
+      return response.text();
+    })
+    .then(text => {
+      output = document.getElementById('outputdb');
+      output.textContent = text;
+      if(text.includes("Error")) {
+        output.style.color = 'red';
+      }
+      else {
+        output.style.color = 'green';
+      }
+    })
+    .catch(error => {
+      console.error('DB: Mit dem Fetch-Vorgang ist nicht alles Taco:', error);
+      document.getElementById('outputdb').textContent = 'DB: Beim Laden des Texts ist nicht alles Taco.';
+      document.getElementById('outputdb').style.color = 'red';
+    });
+</script>
+<img src="allestaco_logo.png" alt="Alles Taco!">
+</center>
+</body>
+</html>
