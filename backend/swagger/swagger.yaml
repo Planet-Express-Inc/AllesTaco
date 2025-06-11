@@ -166,7 +166,7 @@ paths:
       get:
         summary: Search for an article
         tags:
-          - article-search
+          - article-muliple
         description: Search for an article.
         parameters:
           - name: search_str
@@ -187,18 +187,18 @@ paths:
       get:
         summary: Get multiple articles
         tags:
-          - article-search
+          - article-muliple
         description: Get multiple articles form a start number, to a end number.
         parameters:
           - name: first_aticle
             in: path
-            description: Article to list
+            description: First article to list
             required: true
             schema:
               type: integer
           - name: last_aticle
             in: path
-            description: Last article to list
+            description: Last article to list, after the first.
             required: true
             schema:
               type: integer
@@ -714,8 +714,8 @@ components:
 tags:
   - name: article
     description: Add, Get or Delte atricles.
-  - name: article-search
-    description: Search for articles
+  - name: article-muliple
+    description: Get muliple articles or search
   - name: article-views
     description: Views of articles
   - name: user-review
