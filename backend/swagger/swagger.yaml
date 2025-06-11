@@ -198,7 +198,7 @@ paths:
               type: integer
           - name: last_aticle
             in: path
-            description: Last article to list, after the first.
+            description: Last article to list, count from the first on onwards.
             required: true
             schema:
               type: integer
