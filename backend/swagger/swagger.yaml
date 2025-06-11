@@ -141,7 +141,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/article'
+                $ref: '#/components/schemas/article_in'
         responses:
           '201':
             description: successful operation
@@ -161,7 +161,33 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/Method_not_allowed'
-    
+
+    /v1/article/picture/{article_id}:
+      get:
+        summary: Get an article picture
+        tags:
+          - article-picture
+        description: Get an article picture in binary.
+        parameters:
+          - name: article_id
+            in: path
+            description: ID of the article
+            required: true
+            schema:
+              type: integer
+        responses:
+          '200':
+            description: successful operation
+            content:
+              image/png:
+                schema:
+                  type: string
+                  format: binary
+              image/jpeg:
+                schema:
+                  type: string
+                  format: binary
+
     /v1/article/search/{search_str}:
       get:
         summary: Search for an article
@@ -612,6 +638,39 @@ components:
           type: integer
           example: 1
 
+    article_in:
+      type: object
+      properties:
+        artikel_id:
+          type: integer
+          example: 1
+          required: false
+        beschreibung:
+          type: string
+          example: Ein Taco!
+        bestand:
+          type: integer
+          example: 69   
+        kategorie:
+          type: string
+          example: Taco
+        preis:
+          type: float
+          example: 10.99
+        bild:
+          type: binary
+          example: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABB4AAAMyCAYAA==;
+        status:
+          type: string
+          enum: [verfügbar, verkauft]
+          example: verfügbar
+        titel:
+          type: string
+          example: Taco mit Fleisch
+        verkaeufer_id:
+          type: integer
+          example: 1
+
     ## user_purchase.py
     purchase:
       type: object
@@ -725,6 +784,8 @@ tags:
     description: Get muliple articles.
   - name: article-search
     description: Get muliple articles by search.
+  - name: article-picture
+    description: Get article picture.
   - name: article-views
     description: Views of articles
   - name: user-review
