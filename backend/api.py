@@ -44,7 +44,9 @@ swagger_config = {
 swagger = implement_swagger(taco, swagger_config, 'swagger/swagger.yaml')
 
 # CORS
-CORS(taco, supports_credentials=True)
+# TODO: Debug Remove
+#CORS(taco, supports_credentials=True, origins=["http://127.0.0.1:5501", "http://localhost:5501", "https://allestaco.niclas-sieveneck.de"])
+CORS(taco)
 
 # Fix for Proxy
 taco.wsgi_app = ProxyFix(

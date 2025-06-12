@@ -36,7 +36,7 @@ def login():
     
     if request.method == 'GET':
         if check_login():
-            result = {"user": session['username']}
+            result = execute_query("SELECT benutzer_id, benutzername, vorname, nachname, email, rolle, password_encrypt FROM benutzer WHERE benutzer_id=?", [session['username']])
             return jsonify(result), 200
         return jsonify(default_error_no_login), 403
     
