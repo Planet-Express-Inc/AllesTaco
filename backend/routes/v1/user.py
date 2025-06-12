@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, make_response
 
 from functions import *
 
@@ -31,8 +31,8 @@ def login():
         #print(result[0])
         
         check_login()
-
-        return jsonify(result), 201
+        
+        return jsonify(result), 201        
     
     if request.method == 'GET':
         if check_login():
