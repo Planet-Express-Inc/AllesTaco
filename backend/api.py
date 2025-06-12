@@ -44,7 +44,7 @@ swagger_config = {
 swagger = implement_swagger(taco, swagger_config, 'swagger/swagger.yaml')
 
 # CORS
-CORS(taco)
+CORS(taco, supports_credentials=True)
 
 # Fix for Proxy
 taco.wsgi_app = ProxyFix(

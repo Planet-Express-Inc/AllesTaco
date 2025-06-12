@@ -453,6 +453,24 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/Method_not_allowed'
+      get:
+        summary: Check user id, if login was successful
+        tags:
+          - user-login
+        description: Check user id, if login was successful.
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/user'
+          '403':
+            description: no login
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/No_login'
 
     /v1/user/info/{user_id}:
       get:

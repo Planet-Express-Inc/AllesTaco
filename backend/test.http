@@ -15,6 +15,12 @@ content-type: application/json
     "password_encrypt": "1234"
 }
 
+
+### Login GET
+
+GET {{baseUrl}}/user/login HTTP/1.1
+
+
 ### Logoff
 
 GET {{baseUrl}}/user/logoff HTTP/1.1
