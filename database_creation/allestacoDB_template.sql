@@ -33,6 +33,8 @@ CREATE TABLE abgeschlossene_kaeufe (
     kauf_id INT AUTO_INCREMENT PRIMARY KEY,
     kaeufer_id INT NOT NULL,
     artikel_id INT NOT NULL,
+    anzahl INT NOT NULL,
+    verkaeufer_id INT NOT NULL,
     versanddaten TEXT,
     kaufpreis DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (kaeufer_id) REFERENCES benutzer(benutzer_id),
@@ -40,17 +42,12 @@ CREATE TABLE abgeschlossene_kaeufe (
 );
 
 CREATE TABLE warenkorb (
-    warenkorb_id INT AUTO_INCREMENT PRIMARY KEY,
-    kaeufer_id INT NOT NULL,
-    FOREIGN KEY (kaeufer_id) REFERENCES benutzer(benutzer_id)
-);
-
-CREATE TABLE warenkorb_artikel (
-    warenkorb_id INT NOT NULL,
+    benutzer_id INT NOT NULL,
     artikel_id INT NOT NULL,
     anzahl INT NOT NULL,
-    PRIMARY KEY (warenkorb_id, artikel_id),
-    FOREIGN KEY (warenkorb_id) REFERENCES warenkorb(warenkorb_id),
+    verkaeufer_id INT NOT NULL,
+    PRIMARY KEY (benutzer_id, artikel_id),
+    FOREIGN KEY (benutzer_id) REFERENCES benutzer(benutzer_id),
     FOREIGN KEY (artikel_id) REFERENCES artikel(artikel_id)
 );
 
