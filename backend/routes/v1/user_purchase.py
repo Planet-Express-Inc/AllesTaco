@@ -80,5 +80,22 @@ def purchase_cart():
 
         # Append to new list of dicts
         purchases.append(item)
-
-    return purchases
+    
+    # Another loop, after checking all availability. Buying
+    for item in cart:
+        # Lower Stock
+        if not execute_edit("UPDATE artikel SET bestand = bestand - ? WHERE artikel_id = ?", [item["anzahl"], item["artikel_id"]]):
+            return jsonify({"error": "while updating stock of id " + item["artikel_id"]}), 409
+        
+        # Sort
+        needed_parameters = ["kaeufer_id", "artikel_id", "anzahl", "verkaeufer_id", "versanddaten", "kaufpreis"]
+        data = sort_parameters(item, needed_parameters)
+        if not execute_edit("INSERT INTO abgeschlossene_kaeufe(kaeufer_id, artikel_id, anzahl, verkaeufer_id, versanddaten, kaufpreis) VALUES (?, ?, ?, ?, ?, ?)", data):
+            return jsonify({"error": "while inserting to abgeschlossene_kaeufe, id " + item["artikel_id"]}), 409
+        
+        if not execute_edit("DELETE FROM warenkorb WHERE benutzer_id=? AND artikel_id=?", [session['username'], item["artikel_id"]]):
+            return jsonify({"error": "while deleting cart, id " + item["artikel_id"]}), 409
+    
+    
+    return jsonify(default_ok), 201
+    

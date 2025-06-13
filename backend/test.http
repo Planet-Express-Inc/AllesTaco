@@ -194,3 +194,8 @@ GET {{baseUrl}}/user/cart
 ### Delete cart
 
 DELETE  {{baseUrl}}/user/cart/3
+
+
+### Purchase Cart
+
+GET {{baseUrl}}/user/purchase/cart

@@ -35,7 +35,7 @@ def cart(article_id=None):
         return jsonify(default_ok), 201
 
     elif request.method == 'DELETE':
-        execute_edit("DELETE FROM warenkorb WHERE artikel_id=?", [article_id])
+        execute_edit("DELETE FROM warenkorb WHERE benutzer_id=? AND artikel_id=?", [session['username'], article_id])
         return jsonify(default_ok), 204
 
     return default_error_not_sup, 405

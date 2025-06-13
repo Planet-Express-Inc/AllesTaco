@@ -41,7 +41,4 @@ from datetime import datetime, timedelta
 
 shipping_date = (datetime.now() + timedelta(days=2)).strftime("%d.%m.%Y")
 
-
-
-
 print(shipping_date)
