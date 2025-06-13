@@ -697,6 +697,9 @@ components:
         error:
           type: string
           example: Article amount less than demanded.
+        custom:
+          type: string
+          example: A custom value!
     
     ## article_views.py
     article_views:
