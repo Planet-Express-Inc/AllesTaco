@@ -98,6 +98,31 @@ GET {{baseUrl}}/article/search/sauce
 GET {{baseUrl}}/article/multiple/2/4
 
 
+#### FILE: user-cart.py
+
+### Add to cart
+
+POST {{baseUrl}}/user/cart
+Content-Type: application/json 
+
+{
+  "anzahl": 3,
+  "artikel_id": 3,
+  "benutzer_id": 6,
+  "verkaeufer_id": 5
+}
+
+
+### Get cart
+
+GET {{baseUrl}}/user/cart
+
+
+### Delete cart
+
+DELETE  {{baseUrl}}/user/cart/3
+
+
 ### FILE: user_purchase.py
 
 ### Purchase get
@@ -105,17 +130,9 @@ GET {{baseUrl}}/article/multiple/2/4
 GET {{baseUrl}}/user/purchase
 
 
-### Purchase add
+### Purchase Cart
 
 POST {{baseUrl}}/user/purchase
-Content-Type: application/json 
-
-{
-    "artikel_id": 3,
-    "versanddaten": "Heute angekommen!",
-    "kaufpreis": 69.69
-}
-
 
 ### Purchase delete
 
@@ -171,31 +188,3 @@ Content-Type: application/json
 DELETE {{baseUrl}}/user/reviews/6
 
 
-#### FILE: user-cart.py
-
-### Add to cart
-
-POST {{baseUrl}}/user/cart
-Content-Type: application/json 
-
-{
-  "anzahl": 3,
-  "artikel_id": 3,
-  "benutzer_id": 6,
-  "verkaeufer_id": 5
-}
-
-
-### Get cart
-
-GET {{baseUrl}}/user/cart
-
-
-### Delete cart
-
-DELETE  {{baseUrl}}/user/cart/3
-
-
-### Purchase Cart
-
-GET {{baseUrl}}/user/purchase/cart

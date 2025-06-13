@@ -343,15 +343,10 @@ paths:
     ## user_purchase.py
     /v1/user/purchase:
       post:
-        summary: Add a purchase
+        summary: Purchase all items in Cart
         tags:
           - purchase
-        description: Add a purchase to the Database.
-        requestBody:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/purchase'
+        description: Purchase all items in Cart of a user. Checks stock, lowers stock, copy cart to purchase history and purges cart.
         responses:
           '201':
             description: successful operation
@@ -365,12 +360,12 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/No_login'
-          '405':
-            description: Method Not Allowed
+          '409':
+            description: Conflict
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/Method_not_allowed'    
+                  $ref: '#/components/schemas/Custom_error'
       get:
         summary: Get all purchases for the current user
         tags:
@@ -692,6 +687,16 @@ components:
         error:
           type: string
           example: No Login
+
+    Custom_error:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 409
+        error:
+          type: string
+          example: Article amount less than demanded.
     
     ## article_views.py
     article_views:
