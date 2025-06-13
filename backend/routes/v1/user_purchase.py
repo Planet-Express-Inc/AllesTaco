@@ -69,6 +69,15 @@ def purchase_cart():
         item["kaeufer_id"] = session['username']
         # Add Shipping Info
         item["versanddaten"] = shipping_str
+        # Get infos from article
+        article_info = execute_query("SELECT preis, bestand FROM artikel WHERE artikel_id=?", [item["artikel_id"]])[0]
+        price_of_one = int(article_info["preis"])
+        # Check amount
+        if int(article_info["bestand"]) < int(item["anzahl"]):
+            return jsonify({"error": "Article amount less than demanded.", "artikel_id": str(item["artikel_id"]), "bestand": str(article_info["bestand"]), "anzahl": str(item["anzahl"])}), 409
+        # Get price for all
+        item["kaufpreis"] = price_of_one * int(item["anzahl"])
+
         # Append to new list of dicts
         purchases.append(item)
 
