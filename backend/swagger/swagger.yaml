@@ -166,7 +166,7 @@ paths:
       get:
         summary: Get all articles form a user
         tags:
-          - article
+          - article-by-user
         description: Get all articles form a user by id.
         parameters:
           - name: user_id
