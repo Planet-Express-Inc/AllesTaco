@@ -54,3 +54,12 @@ def search_article(search_str):
 def multiple_article(first_article: int, last_article: int):
     result = execute_query("SELECT artikel_id, titel, verkaeufer_id, beschreibung, preis, status, bestand, kategorie FROM artikel LIMIT ? OFFSET ?", [last_article, first_article])
     return jsonify(result), 200
+
+
+@article_bp.route('/article/user/<user_id>', methods=['GET'])
+def article_by_user(user_id):
+    # Get info
+    if request.method == 'GET':
+        result = execute_query("SELECT artikel_id, titel, verkaeufer_id, beschreibung, preis, status, bestand, kategorie FROM artikel WHERE verkaeufer_id=?", [user_id])
+        return jsonify(result), 200
+    

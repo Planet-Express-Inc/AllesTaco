@@ -80,6 +80,10 @@ Content-Type: application/json
 GET {{baseUrl}}/article/2
 
 
+### Article by user
+GET {{baseUrl}}/article/user/12
+
+
 ### Article Delete
 
 DELETE {{baseUrl}}/article/10

@@ -162,6 +162,27 @@ paths:
                 schema:
                   $ref: '#/components/schemas/Method_not_allowed'
 
+    /v1/article/user/{user_id}:
+      get:
+        summary: Get all articles form a user
+        tags:
+          - article
+        description: Get all articles form a user by id.
+        parameters:
+          - name: user_id
+            in: path
+            description: ID of the other user
+            required: true
+            schema:
+              type: integer
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/article'
+
     /v1/article/picture/{article_id}:
       get:
         summary: Get an article picture
@@ -914,6 +935,8 @@ tags:
     description: Get article picture.
   - name: article-views
     description: Views of articles
+  - name: article-by-user
+    description: Articles from a user.
   - name: user-cart
     description: Shopping cart.
   - name: user-review
