@@ -2,13 +2,13 @@ from flask import Blueprint, jsonify
 
 from functions import *
 
-cart_bp = Blueprint('cart', __name__, url_prefix='/v1')
+user_cart_bp = Blueprint('cart', __name__, url_prefix='/v1')
 
 
 ### Cart
 # TODO: all, Swagger!
-@cart_bp.route('/cart/<article_id>', methods=['DELETE'])
-@cart_bp.route('/cart', methods=['GET','POST'])
+@user_cart_bp.route('/user/cart/<article_id>', methods=['DELETE'])
+@user_cart_bp.route('/user/cart', methods=['GET','POST'])
 def cart(article_id=None):
     if not check_login():
         return jsonify(default_error_no_login), 403

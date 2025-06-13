@@ -171,11 +171,11 @@ Content-Type: application/json
 DELETE {{baseUrl}}/user/reviews/6
 
 
-#### FILE: cart.py
+#### FILE: user-cart.py
 
 ### Add to cart
 
-POST {{baseUrl}}/cart
+POST {{baseUrl}}/user/cart
 Content-Type: application/json 
 
 {
@@ -188,9 +188,9 @@ Content-Type: application/json
 
 ### Get cart
 
-GET {{baseUrl}}/cart
+GET {{baseUrl}}/user/cart
 
 
 ### Delete cart
 
-DELETE  {{baseUrl}}/cart/3
+DELETE  {{baseUrl}}/user/cart/3
