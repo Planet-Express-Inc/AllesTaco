@@ -236,6 +236,89 @@ paths:
                 schema:
                   $ref: '#/components/schemas/article'
 
+    # cart.py
+    /v1/cart/{article_id}:
+      delete:
+        summary: Deletes an article from cart
+        tags:
+          - cart
+        description: Deletes an article by id from cart
+        parameters:
+          - name: article_id
+            in: path
+            description: ID of the article
+            required: true
+            schema:
+              type: integer
+        responses:
+          '204':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Status_ok'
+          '403':
+            description: no login
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/No_login'
+          '405':
+            description: Method Not Allowed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Method_not_allowed'
+
+    /v1/cart:
+      get:
+        summary: Get the cart
+        tags:
+          - cart
+        description: Get the cart of the current user.
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/cart_item'
+          '403':
+            description: no login
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/No_login'
+      post:
+        summary: Adds an article to the cart
+        tags:
+          - cart
+        description: Adds an article to the cart of the current user.
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/cart_item'
+        responses:
+          '201':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Status_ok'
+          '403':
+            description: no login
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/No_login'
+          '405':
+            description: Method Not Allowed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Method_not_allowed'
+
     ## status.py
     /v1/system/status/api:
       get:
@@ -689,6 +772,23 @@ components:
           type: integer
           example: 1
 
+    ## cart.py
+    cart_item:
+      type: object
+      properties:
+        benutzer_id:
+          type: integer
+          example: 1
+        artikel_id:
+          type: integer
+          example: 7
+        anzahl:
+          type: integer
+          example: 2
+        verkaeufer_id:
+          type: integer
+          example: 3
+
     ## user_purchase.py
     purchase:
       type: object
@@ -806,6 +906,8 @@ tags:
     description: Get article picture.
   - name: article-views
     description: Views of articles
+  - name: cart
+    description: Shopping cart.
   - name: user-review
     description: Reviews of articles.
   - name: system
