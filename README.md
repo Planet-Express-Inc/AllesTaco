@@ -70,3 +70,9 @@ If you have to restart the containers use:
 cd docker
 ./restart.sh
 ```
+
+## API docs
+You can see the Swagger documentation for the API at:
+```
+https://yourdomain.com:5000/apidocs/
+```
