@@ -2,7 +2,6 @@ import io
 import re
 import base64
 
-# TODO: Check if needed:
 from flask import Flask, request, redirect, jsonify, send_from_directory, url_for, session, render_template_string, send_file, abort
 import json
 import time
@@ -85,7 +84,6 @@ def execute_edit(query: str, param: list) -> bool:
     return False
 
 # Download blob data from database
-# TODO: Not working. Extractig minetype, Siehe GPT
 def download_data(query: str, param: str, filename:str):
     try:
         # Get conn

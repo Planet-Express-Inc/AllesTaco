@@ -6,7 +6,6 @@ user_cart_bp = Blueprint('cart', __name__, url_prefix='/v1')
 
 
 ### Cart
-# TODO: all, Swagger!
 @user_cart_bp.route('/user/cart/<article_id>', methods=['DELETE'])
 @user_cart_bp.route('/user/cart', methods=['GET','POST'])
 def cart(article_id=None):

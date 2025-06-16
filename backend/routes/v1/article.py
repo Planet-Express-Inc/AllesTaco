@@ -41,7 +41,6 @@ def article(article_id=None):
         return jsonify(default_ok), 204
 
 # Picture for article
-# TODO: Post for Picure? Or via JSON (-> Article POST)
 @article_bp.route('/article/picture/<article_id>', methods=['GET'])
 def get_article_picture(article_id):
     result = download_data("SELECT bild FROM artikel WHERE artikel_id=?", [article_id], article_id)
