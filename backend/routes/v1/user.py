@@ -68,9 +68,16 @@ def check_username(username):
 def register():
     json_data = request.get_json()
     needed_parameters = ["vorname", "nachname", "benutzername", "email", "rolle", "password_encrypt"]
+
+    if not json_data["benutzername"]:
+        return jsonify({"error": "Username empty"}), 405
+    
+    if not json_data["password_encrypt"]:
+        return jsonify({"error": "Password empty"}), 405
+
     data = json_exctract_and_validate(json_data, needed_parameters)
 
-    # TODO: == "True"
+
     # Check users existence
     if not is_json_empty(execute_query("SELECT benutzer_id FROM benutzer WHERE benutzername=?", [data["benutzername"]])):
         return jsonify({"error": "User exists"}), 405
