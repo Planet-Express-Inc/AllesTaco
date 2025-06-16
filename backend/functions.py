@@ -167,10 +167,7 @@ def check_login() -> bool:
 pool = connect_database(
             user="taco",
             password="erb6dbfnsm47ptk90i9sw87",
-            #host="tacodb",
-            # TODO: Prod Server
-            ############################################################## TEST
-            host="194.164.63.79",
+            host="tacodb",
             port=3306,
             database="allestacoDB",
             pool_size=10
