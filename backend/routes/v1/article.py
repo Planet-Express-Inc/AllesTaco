@@ -22,6 +22,10 @@ def article(article_id=None):
     if request.method == 'POST':
         json_data = request.get_json()
         needed_parameters = ["titel", "verkaeufer_id", "beschreibung", "preis", "bild", "status", "bestand", "kategorie"]
+
+        # Add user id
+        json_data["verkaeufer_id"] = session['username']
+
         data = json_exctract_and_validate(json_data, needed_parameters)
 
         if not data:
@@ -33,7 +37,7 @@ def article(article_id=None):
     
     # Delete
     if request.method == 'DELETE':
-        execute_edit("DELETE FROM artikel WHERE artikel_id=?", [article_id])
+        execute_edit("DELETE FROM artikel WHERE artikel_id=? AND verkaeufer_id=?", [article_id, session['username']])
         return jsonify(default_ok), 204
 
 # Picture for article
