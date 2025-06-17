@@ -2,17 +2,9 @@ from flask import Blueprint, jsonify
 
 from functions import *
 
-# For Helper
-from datetime import datetime, timedelta
 
 user_purchase_bp = Blueprint('user_purchase', __name__, url_prefix='/v1')
 
-# TODO: Auslagern in functions.py?
-### Helper for "shipping"
-def get_shipping_info() -> str:
-    shipping_date = (datetime.now() + timedelta(days=2)).strftime("%d.%m.%Y")
-    shipping_str = "Ihre Bestellung wird " + shipping_date + " vorraussichtlich geliefert."
-    return shipping_str
 
 ### Get/Remove all purchases for a user
 @user_purchase_bp.route('/user/purchase', methods=['POST', 'GET', 'DELETE'])

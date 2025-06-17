@@ -6,12 +6,14 @@ from flask import Flask, request, redirect, jsonify, send_from_directory, url_fo
 import json
 import time
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import mariadb
 from mariadb import ConnectionPool
 
 from default_codes import * 
+
+import bcrypt
 
 
 # Connect to Database (generic)
@@ -163,6 +165,12 @@ def check_login() -> bool:
         return True
     return False
 
+### Helper for "shipping"
+def get_shipping_info() -> str:
+    shipping_date = (datetime.now() + timedelta(days=2)).strftime("%d.%m.%Y")
+    shipping_str = "Ihre Bestellung wird " + shipping_date + " vorraussichtlich geliefert."
+    return shipping_str
+
 # Get Date for SQL
 def get_sql_date() -> str:
     return datetime.now().strftime("%Y-%m-%d")
@@ -176,6 +184,9 @@ def split_sql_date(input: str) -> dict:
         out["month"] = input[1]
         out["day"]   = input[2]
     return out
+
+def password_hash_salt(unencypt: str) -> str:
+    pass
 
 # Global pool
 pool = connect_database(
