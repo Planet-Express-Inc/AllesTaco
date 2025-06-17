@@ -237,15 +237,15 @@ paths:
           - article-muliple
         description: Get multiple articles form a start number, to a end number.
         parameters:
-          - name: first_aticle
+          - name: start-offset
             in: path
-            description: First article to list
+            description: Offset from first article in DB.
             required: true
             schema:
               type: integer
-          - name: last_aticle
+          - name: amount
             in: path
-            description: Last article to list, count from the first on onwards.
+            description: How many articles to show.
             required: true
             schema:
               type: integer
