@@ -850,25 +850,28 @@ components:
     purchase:
       type: object
       properties:
-        artikel_id:
-          type: integer
-          example: 1
-        kaeufer_id:
-          type: integer
-          example: 6
         kauf_id:
           type: integer
           example: 3
           required: false
+        kaeufer_id:
+          type: integer
+          example: 6
+        artikel_id:
+          type: integer
+          example: 1
+        anzahl:
+          type: integer
+          example: 5
         verkaeufer_id:
           type: integer
           example: 5
-        kaupreis:
-          type: float
-          example: 10.99
         versanddaten:
           type: string
           example: Lieferung am 01.01.2024
+        kaupreis:
+          type: float
+          example: 10.99
     
     ## user_reviews.py
     review:
