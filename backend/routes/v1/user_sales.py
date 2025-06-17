@@ -12,4 +12,8 @@ def sales(user_id):
         return jsonify(default_error_no_login), 403
 
     result = execute_query("SELECT kauf_id, kaeufer_id, artikel_id, anzahl, datum, verkaeufer_id, versanddaten, kaufpreis FROM abgeschlossene_kaeufe WHERE verkaeufer_id=?", [user_id])
+    # Add day, month, year
+    for item in result:
+        date_dict = split_sql_date(str(item["datum"]))
+        item.update(date_dict)
     return jsonify(result), 200

@@ -167,6 +167,16 @@ def check_login() -> bool:
 def get_sql_date() -> str:
     return datetime.now().strftime("%Y-%m-%d")
 
+# Split SQL date into dict
+def split_sql_date(input: str) -> dict:
+    input = input.split("-")
+    out = {}
+    if len(input) > 2:
+        out["year"]  = input[0]
+        out["month"] = input[1]
+        out["day"]   = input[2]
+    return out
+
 # Global pool
 pool = connect_database(
             user="taco",

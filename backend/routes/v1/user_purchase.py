@@ -23,6 +23,9 @@ def purchase():
     # Get info
     if request.method == 'GET':
         result = execute_query("SELECT kauf_id, kaeufer_id, artikel_id, anzahl, datum, verkaeufer_id, versanddaten, kaufpreis FROM abgeschlossene_kaeufe WHERE kaeufer_id=?", [session['username']])
+        for item in result:
+            date_dict = split_sql_date(str(item["datum"]))
+            item.update(date_dict)
         return jsonify(result), 200
     
     # New One

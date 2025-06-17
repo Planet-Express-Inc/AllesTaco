@@ -860,6 +860,9 @@ components:
         artikel_id:
           type: integer
           example: 1
+        datum:
+          type: string
+          example: 2025-01-10
         day:
           type: intger
           example: 10
