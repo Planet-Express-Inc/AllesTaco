@@ -201,6 +201,7 @@ def check_password_length(pw: str) -> bool:
 
 # Check pw for login
 def check_password_login(pw_input: str, pw_db) -> bool:
+    pw_input = pw_input.encode("utf-8")
     if bcrypt.checkpw(pw_input, pw_db):
         return True
     return False
