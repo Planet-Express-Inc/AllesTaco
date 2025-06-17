@@ -99,7 +99,13 @@ GET {{baseUrl}}/article/search/sauce
 
 
 ### Muliple aticles
-GET {{baseUrl}}/article/multiple/2/4
+POST {{baseUrl}}/article/multiple
+Content-Type: application/json 
+
+{
+  "number": 5,
+  "offset": 5
+}
 
 
 #### FILE: user-cart.py

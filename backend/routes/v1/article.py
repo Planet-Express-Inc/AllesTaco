@@ -53,9 +53,10 @@ def search_article(search_str):
     return jsonify(result), 200
 
 # Search
-@article_bp.route('/article/multiple/<int:first_article>/<int:last_article>', methods=['GET'])
-def multiple_article(first_article: int, last_article: int):
-    result = execute_query("SELECT artikel_id, titel, verkaeufer_id, beschreibung, preis, status, bestand, kategorie FROM artikel LIMIT ? OFFSET ?", [last_article, first_article])
+@article_bp.route('/article/multiple', methods=['POST'])
+def multiple_article():
+    json_data = request.get_json()
+    result = execute_query("SELECT artikel_id, titel, verkaeufer_id, beschreibung, preis, status, bestand, kategorie FROM artikel LIMIT ? OFFSET ?", [json_data["number"], json_data["offset"]])
     return jsonify(result), 200
 
 
