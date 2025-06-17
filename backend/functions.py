@@ -6,6 +6,8 @@ from flask import Flask, request, redirect, jsonify, send_from_directory, url_fo
 import json
 import time
 
+from datetime import datetime
+
 import mariadb
 from mariadb import ConnectionPool
 
@@ -160,6 +162,10 @@ def check_login() -> bool:
         print(f"Check login for {session['username']}, True")
         return True
     return False
+
+# Get Date for SQL
+def get_sql_date() -> str:
+    return datetime.now().strftime("%Y-%m-%d")
 
 # Global pool
 pool = connect_database(

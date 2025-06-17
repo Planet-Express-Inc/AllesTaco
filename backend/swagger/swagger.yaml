@@ -860,6 +860,15 @@ components:
         artikel_id:
           type: integer
           example: 1
+        day:
+          type: intger
+          example: 10
+        month:
+          type: integer
+          example: 01
+        year:
+          type: integer
+          example: 2025
         anzahl:
           type: integer
           example: 5

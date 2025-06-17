@@ -33,6 +33,7 @@ CREATE TABLE abgeschlossene_kaeufe (
     kaeufer_id INT NOT NULL,
     artikel_id INT NOT NULL,
     anzahl INT NOT NULL,
+    datum DATE NOT NULL,
     verkaeufer_id INT NOT NULL,
     versanddaten TEXT,
     kaufpreis DECIMAL(10,2) NOT NULL,

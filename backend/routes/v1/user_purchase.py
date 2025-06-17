@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 
 user_purchase_bp = Blueprint('user_purchase', __name__, url_prefix='/v1')
 
+# TODO: Auslagern in functions.py?
 ### Helper for "shipping"
 def get_shipping_info() -> str:
     shipping_date = (datetime.now() + timedelta(days=2)).strftime("%d.%m.%Y")
@@ -21,7 +22,7 @@ def purchase():
 
     # Get info
     if request.method == 'GET':
-        result = execute_query("SELECT kauf_id, kaeufer_id, artikel_id, anzahl, verkaeufer_id, versanddaten, kaufpreis FROM abgeschlossene_kaeufe WHERE kaeufer_id=?", [session['username']])
+        result = execute_query("SELECT kauf_id, kaeufer_id, artikel_id, anzahl, datum, verkaeufer_id, versanddaten, kaufpreis FROM abgeschlossene_kaeufe WHERE kaeufer_id=?", [session['username']])
         return jsonify(result), 200
     
     # New One
@@ -34,12 +35,17 @@ def purchase():
         
         # iterate items in cart
         purchases = []
+          
+        # Get today and shipping info
+        today = get_sql_date()
         shipping_str = get_shipping_info()
+
         for item in cart:
             # add keufer_id
             item["kaeufer_id"] = session['username']
-            # Add Shipping Info
+            # Add Shipping Info and date
             item["versanddaten"] = shipping_str
+            item["datum"] = today
             # Get infos from article
             article_info = execute_query("SELECT preis, bestand FROM artikel WHERE artikel_id=?", [item["artikel_id"]])[0]
             price_of_one = int(article_info["preis"])
@@ -51,7 +57,7 @@ def purchase():
 
             # Append to new list of dicts
             purchases.append(item)
-        
+
         # Another loop, after checking all availability. Buying
         for item in cart:
             # Lower Stock
@@ -59,9 +65,9 @@ def purchase():
                 return jsonify({"error": "while updating stock of id " + item["artikel_id"]}), 409
             
             # Sort
-            needed_parameters = ["kaeufer_id", "artikel_id", "anzahl", "verkaeufer_id", "versanddaten", "kaufpreis"]
+            needed_parameters = ["kaeufer_id", "artikel_id", "datum", "anzahl", "verkaeufer_id", "versanddaten", "kaufpreis"]
             data = sort_parameters(item, needed_parameters)
-            if not execute_edit("INSERT INTO abgeschlossene_kaeufe(kaeufer_id, artikel_id, anzahl, verkaeufer_id, versanddaten, kaufpreis) VALUES (?, ?, ?, ?, ?, ?)", data):
+            if not execute_edit("INSERT INTO abgeschlossene_kaeufe(kaeufer_id, artikel_id, datum, anzahl, verkaeufer_id, versanddaten, kaufpreis) VALUES (?, ?, ?, ?, ?, ?, ?)", data):
                 return jsonify({"error": "while inserting to abgeschlossene_kaeufe, id " + item["artikel_id"]}), 409
             
             if not execute_edit("DELETE FROM warenkorb WHERE benutzer_id=? AND artikel_id=?", [session['username'], item["artikel_id"]]):
