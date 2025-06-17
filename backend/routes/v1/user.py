@@ -18,15 +18,22 @@ def login():
             print("Login: No Data")
             return jsonify({"error": "Login: No Data"}), 405
         
-        result = execute_query("SELECT benutzer_id, benutzername, vorname, nachname, email, rolle, password_encrypt FROM benutzer WHERE benutzername=? AND password_encrypt=?", [data["benutzername"], data["password_encrypt"]])
+        result = execute_query("SELECT benutzer_id, benutzername, vorname, nachname, email, rolle, password_encrypt FROM benutzer WHERE benutzername=?", [data["benutzername"]])
         
         if is_json_empty(result):
             print("Login: Auth issue")
-            return jsonify({"error": "Login: Auth issue"}), 405
+            return jsonify({"error": "Login: Auth issue"}), 403
+        
+        # Check password
+        if not check_password_login(data["password_encrypt"], result[0]["password_encrypt"]):
+            return jsonify({"error": "Login: Auth issue"}), 403
         
         # Save cookie
         session['username'] = result[0]["benutzer_id"]
-        
+
+        # Remove PW from output^^
+        result[0].pop("password_encrypt")
+
         check_login()
         
         return jsonify(result), 201        
@@ -68,6 +75,12 @@ def register():
     
     if not json_data["password_encrypt"]:
         return jsonify({"error": "Password empty"}), 405
+    
+    if not check_password_length(json_data["password_encrypt"]):
+        return jsonify({"error": "Password to short"}), 405
+    
+    # Hash and salt
+    json_data["password_encrypt"] = password_init(json_data["password_encrypt"])
 
     data = json_exctract_and_validate(json_data, needed_parameters)
 

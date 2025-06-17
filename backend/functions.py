@@ -191,7 +191,7 @@ def password_init(unencypt: str) -> str:
     unencypt = unencypt.encode("utf-8")
     salt = bcrypt.gensalt()
     hashed = bcrypt.hashpw(unencypt, salt)
-    return hashed
+    return hashed.decode("utf-8")
 
 # Check PW length
 def check_password_length(pw: str) -> bool:
@@ -202,9 +202,15 @@ def check_password_length(pw: str) -> bool:
 # Check pw for login
 def check_password_login(pw_input: str, pw_db) -> bool:
     pw_input = pw_input.encode("utf-8")
-    if bcrypt.checkpw(pw_input, pw_db):
-        return True
-    return False
+    pw_db = pw_db.encode("utf-8")
+    # Exception handling, bad libary -> True or Exception, why?
+    try:
+        if bcrypt.checkpw(pw_input, pw_db):
+            return True
+    except Exception as e:
+        print("Auth error: " + e)
+    finally:
+        return False
 
 # Global pool
 pool = connect_database(
