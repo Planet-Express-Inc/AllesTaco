@@ -185,8 +185,25 @@ def split_sql_date(input: str) -> dict:
         out["day"]   = input[2]
     return out
 
-def password_hash_salt(unencypt: str) -> str:
-    pass
+# Hash and salt password
+def password_init(unencypt: str) -> str:
+    # Charset
+    unencypt = unencypt.encode("utf-8")
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(unencypt, salt)
+    return hashed, salt
+
+# Check PW length
+def check_password_length(pw: str) -> bool:
+    if len(pw) >= 8:
+        return True
+    return False
+
+# Check pw for login
+def check_password_login(pw_input: str, pw_db) -> bool:
+    if bcrypt.checkpw(pw_input, pw_db):
+        return True
+    return False
 
 # Global pool
 pool = connect_database(
