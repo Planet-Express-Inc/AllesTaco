@@ -200,7 +200,7 @@ def check_password_length(pw: str) -> bool:
     return False
 
 # Check pw for login
-def check_password_login(pw_input: str, pw_db) -> bool:
+def check_password_login(pw_input: str, pw_db: str) -> bool:
     pw_input = pw_input.encode("utf-8")
     pw_db = pw_db.encode("utf-8")
     # Exception handling, bad libary -> True or Exception, why?
@@ -208,9 +208,9 @@ def check_password_login(pw_input: str, pw_db) -> bool:
         if bcrypt.checkpw(pw_input, pw_db):
             return True
     except Exception as e:
-        print("Auth error: " + e)
-    finally:
+        print("Auth error: " + str(e))
         return False
+    return False
 
 # Global pool
 pool = connect_database(

@@ -12,7 +12,7 @@ content-type: application/json
 {
     "benutzername": "ntr0py123", 
     "rolle": "käufer", 
-    "password_encrypt": "1234"
+    "password_encrypt": "12345678"
 }
 
 
