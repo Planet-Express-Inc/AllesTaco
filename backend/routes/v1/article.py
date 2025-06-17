@@ -49,7 +49,7 @@ def get_article_picture(article_id):
 # Search
 @article_bp.route('/article/search/<search_str>', methods=['GET'])
 def search_article(search_str):
-    result = execute_query("SELECT artikel_id, titel, verkaeufer_id, beschreibung, preis, status, bestand, kategorie FROM artikel WHERE titel LIKE ? OR beschreibung LIKE ?", [f"%{search_str}%", f"%{search_str}%"])
+    result = execute_query("SELECT artikel_id, titel, verkaeufer_id, beschreibung, preis, status, bestand, kategorie FROM artikel WHERE titel LIKE ? OR kategorie LIKE ? OR beschreibung LIKE ?", [f"%{search_str}%", f"%{search_str}%", f"%{search_str}%"])
     return jsonify(result), 200
 
 # Search
