@@ -21,7 +21,7 @@ def purchase():
 
     # Get info
     if request.method == 'GET':
-        result = execute_query("SELECT kauf_id, kaeufer_id, artikel_id, versanddaten, kaufpreis FROM abgeschlossene_kaeufe WHERE kaeufer_id=?", [session['username']])
+        result = execute_query("SELECT kauf_id, kaeufer_id, artikel_id, verkaeufer_id, versanddaten, kaufpreis FROM abgeschlossene_kaeufe WHERE kaeufer_id=?", [session['username']])
         return jsonify(result), 200
     
     # New One
