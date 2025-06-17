@@ -8,3 +8,4 @@ database/*
 venv/*
 frontend/
 backend/tests/test.py
+backend/test.py

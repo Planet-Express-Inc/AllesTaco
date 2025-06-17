@@ -185,13 +185,13 @@ def split_sql_date(input: str) -> dict:
         out["day"]   = input[2]
     return out
 
-# Hash and salt password
+# Hash and salt password for registration
 def password_init(unencypt: str) -> str:
     # Charset
     unencypt = unencypt.encode("utf-8")
     salt = bcrypt.gensalt()
     hashed = bcrypt.hashpw(unencypt, salt)
-    return hashed, salt
+    return hashed
 
 # Check PW length
 def check_password_length(pw: str) -> bool:
