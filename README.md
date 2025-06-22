@@ -38,6 +38,22 @@ cp /your/cert/fullchain.pem docker/cert/fullchain.pem
 cp /your/cert/privkey.pem docker/cert/privkey.pem
 chmod +r docker/*.pem
 ```
+
+### Configure CORS origins and cookie secret
+You have to change your URL in order to have CORS working.
+Edit.
+```
+backend/config.py
+```
+Add your frontend URL and your own cookie secrert.
+```
+# Origins for CORS
+origins=["https://yourdomain.com"]
+
+# Secret for cookies
+secret_key = "super_secret_124g+#f43g"
+```
+
 ### Copy database template
 Copy the database template file for later use in container.
 ```
