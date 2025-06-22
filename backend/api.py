@@ -10,6 +10,9 @@ from werkzeug.exceptions import HTTPException
 # Uitltys
 from functions import *
 
+# Config
+from config import *
+
 # Blueprints
 from routes import register_blueprints
 
@@ -19,34 +22,11 @@ from swagger import *
 # Create App
 taco = Flask(__name__)
 
-# Crate flasgger
-swagger_config = {
-    "spec": {
-        "openapi": "3.0.3", 
-        "info": {
-            "title": "Alles Taco - 1.0",
-            "description": "Alles Taco API 1.0",
-            "version": "1.0.0",
-        },
-    },
-    "components": {
-        "securitySchemes": {
-            "bearerAuth": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT",
-            }
-        }
-    },
-}
-
 # Start Swagger/flasgger
 swagger = implement_swagger(taco, swagger_config, 'swagger/swagger.yaml')
 
 # CORS
-# TODO: Debug Remove
-CORS(taco, supports_credentials=True, origins=["http://127.0.0.1:5501", "http://localhost:5501", "https://allestaco.niclas-sieveneck.de"])
-#CORS(taco)
+CORS(taco, supports_credentials=True, origins=origins)
 
 # Same Site bug
 taco.config.update(SESSION_COOKIE_SAMESITE="None", SESSION_COOKIE_SECURE=True)
@@ -57,7 +37,7 @@ taco.wsgi_app = ProxyFix(
 )
 
 # Secret for sessions
-taco.secret_key = "super_secret_124g+#f43g"
+taco.secret_key = secret_key
 
 ### Routes
 # Get from Blueprints
@@ -79,7 +59,6 @@ def handle_exception(e):
 if __name__ == '__main__':
     # Disable debug, when deployed in a container, for production use
     debug = False
-    debug = True ###############################################################################################
     if len( sys.argv ) > 1:
         first_arg = str(sys.argv[1])
         if first_arg.lower() == "debug":
