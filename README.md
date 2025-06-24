@@ -92,3 +92,9 @@ You can see the Swagger documentation for the API at:
 ```
 https://yourdomain.com:5000/apidocs/
 ```
+
+## Frontend
+You can see the README.md for the frontend in:
+```
+frontend/README.md
+```
