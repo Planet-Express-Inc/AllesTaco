@@ -1,6 +1,6 @@
 # Alles Taco - API v1.0
 
-![CAlles Taco](https://github.com/Planet-Express-Inc/AllesTaco/blob/master/frontend_status/allestaco_logo.png?raw=true)
+![CAlles Taco](https://github.com/Planet-Express-Inc/AllesTaco/blob/master/frontend/allestaco_logo.png?raw=true)
 
 ## Installation
 ### Debian/Ubuntu
