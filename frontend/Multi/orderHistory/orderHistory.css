@@ -1,0 +1,34 @@
+
+.main-content {
+    padding: 20px;
+}
+
+.order-history {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 1000px;
+}
+
+.order-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.order-item h3 {
+    margin: 0 0 5px;
+    font-size: 18px;
+}
+
+.order-item p {
+    margin: 3px 0;
+    font-size: 15px;
+}
+
+:focus {
+  outline: 3px solid #ff7300;
+  outline-offset: 2px;
+}

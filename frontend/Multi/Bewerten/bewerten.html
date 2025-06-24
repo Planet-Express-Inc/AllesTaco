@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="de">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Alles Taco – Bewerten</title>
+    <link rel="stylesheet" href="/Multi/all.css">
+    <link rel="stylesheet" href="bewerten.css">
+  </head>
+
+  <body>
+    <header class="header"> 
+
+      <div class="logo">
+        <img id="logo" src="/Multi/Bilder/taco_logo.png" onclick="startsite()" alt="Alles Taco Logo">
+      </div>
+
+      <div class="search">
+          <input type="text" id="search-input" placeholder="Nach Artikeln suchen..." class="search-input">
+        <button class="search-button" onclick="suche()">🌮</button>
+      </div>
+
+      <div class="user-block"> 
+        <div class="user-info-block">
+          <div class="user-info" id="user-info">
+            Angemeldet als: Fehler 
+          </div>
+          <div class="user-role" id="user-role">
+            (Kein Konto erkannt)
+          </div>
+        </div>
+
+      <div class="dropdown">
+        <button class="action-button" onclick="toggleDropdown()">
+          <img src="/Multi/Bilder/dein_bild.png" alt="ActionKnopf">
+        </button>
+
+        <div id="dropdown-menu" class="dropdown-content">
+          <!-- Only seller -->
+          <div class="role-content" data-role-content="Verkäufer">
+            <a href="/Multi/userOverview/userOverview.html" data-role="Verkäufer">Benutzerinfo</a>
+            <a href="/Multi/Verkaeufer/verkaeufer.html" data-role="Verkäufer">Produktübersicht</a>
+            <a href="/Multi/verkauferVerkaufe/verkauferVerkaufe.html" data-role="Verkäufer">Verkäufe</a>
+            <a href="/Multi/Kaeufer/kaeufer.html" data-role="Käufer">Käufer</a>
+          </div>
+
+          <!-- Only buyer -->
+          <div class="role-content" data-role-content="Käufer">
+            <a href="/Multi/Kaeufer/kaeufer.html" data-role="Käufer">Startseite</a>
+            <a href="/Multi/userOverview/userOverview.html" data-role="Käufer">Benutzerinfo</a>
+            <a href="/Multi/orderHistory/orderHistory.html" data-role="Käufer">Bestellhistorie</a>
+            <a href="#" id="warenkorb">Warenkorb</a>
+            <a href="/Multi/Verkaeufer/verkaeufer.html" data-role="Verkäufer">Verkäufer</a>
+          </div>
+          <a href="#" id="logoff">Abmelden</a>
+        </div>
+      </div>
+    </header>
+<main>
+
+    <div class="detail-layout">
+        <h2 id="verkaeuferName"></h2>
+
+            <form id="bewerten-form" aria-label="Bewertungsformular">
+
+            <h2 id="sterne-label"> Sternebewertung:</h2>
+            <div class="sterne-bewertung" id="sterne-container" role="radiogroup" aria-labelledby="sterne-label">
+              <span data-wert="1" role="radio" aria-label="1 Stern" tabindex="0" aria-checked="false">★</span>
+              <span data-wert="2" role="radio" aria-label="2 Sterne" tabindex="0" aria-checked="false">★</span>
+              <span data-wert="3" role="radio" aria-label="3 Sterne" tabindex="0" aria-checked="false">★</span>
+              <span data-wert="4" role="radio" aria-label="4 Sterne" tabindex="0" aria-checked="false">★</span>
+              <span data-wert="5" role="radio" aria-label="5 Sterne" tabindex="0" aria-checked="false">★</span>
+            </div>
+            <input type="hidden" id="sterne-wert" name="sterne" required>
+            
+            <h2 for="description">Kommentar:</h2>
+            <textarea id="description" placeholder="Beschreibung eingeben..." rows="6" required aria-required="true"></textarea>
+            <button type="submit" class="save-button">Speichern</button>
+          </form>
+
+      </div>
+        <div id="saveModal" class="modal" aria-live="assertive">
+          <div class="modal-content">
+            <p>Die Bewertung wurde erfolgreich gespeichert!</p>
+            <button id="backButton" onclick="window.location.href='/Multi/Kaeufer/kaeufer.html'">Zurück zur Startseite</button>
+       </div>   
+    </div>
+
+</main>
+
+
+<footer class="footer"> 
+      <div>
+        <button class="impressum-button" onclick="window.location.href='https://niclas-sieveneck.de/impressum/'">
+            Impressum
+        </button>
+
+        <button class="impressum-button" onclick="window.location.href='https://niclas-sieveneck.de/datenschutz/'">
+            Datenschutz
+        </button>
+      </div>
+    </footer>
+    <script type="module" src="bewerten.js"></script>
+    <script type="module" src="/Multi/all.js" defer></script>
+  </body>
+</html>
+
+

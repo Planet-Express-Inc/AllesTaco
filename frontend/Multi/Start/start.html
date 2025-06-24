@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="de">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Alles Taco – Startseite</title>
+    <link rel="stylesheet" href="start.css">
+    <link rel="stylesheet" href="/Multi/all.css">
+    <script type="module" src="start.js"></script>
+  </head>
+
+  <body>
+    <header class="header"> <!-- Obere Leiste -->
+      <div class="logo">
+        <img src="/Multi/Bilder/taco_logo.png" alt="Alles Taco Logo">
+      </div>
+
+      <div class="welcome">
+          <h1>Willkommen bei: AllesTaco</h1>
+      </div>
+    </header>
+
+    
+    <main class="main-content"> <!-- Die Haupt anzeige -->
+      <div class="cookie-popup" id="cookie-popup">
+          <h2>Cookies</h2>
+          <p>Ich nehme außerdem zur Kenntnis, dass diese Website ein studentisches Projekt im Rahmen des Studiums an der Hochschule Ruhr West ist. Sämtliche Inhalte, insbesondere zu „AllesTaco“, dienen ausschließlich Studien- und Prüfungszwecken. Die Seite ist nicht kommerziell und stellt kein reales Angebot dar.</p>
+          
+          <label><input type="radio" name="cookie-choice" value="accept"> Cookies Akzeptieren</label>
+          <label><input type="radio" name="cookie-choice" value="reject"> Cookies Ablehnen</label>
+          <button onclick="toggleCookies()">Bestätigen</button>
+      </div>
+
+      <div class="roll-popup" id="roll-popup">
+          <h2>Rollen Wahl</h2>
+          <div>Bitte wähle aus ob du als Verkäufer oder Käufer weiter möchtest.</div>
+          <label><input type="radio" name="roll-button" id="roll-käufer" value="Käufer"> Käufer</label>
+          <label><input type="radio" name="roll-button" id="roll-verkäufer" value="Verkäufer"> Verkäufer</label>
+          <br>
+          <button onclick="showLogin()">Bestätigen</button>
+      </div>
+
+      <div class="login-popup" id="login-popup">
+          <h2>Einloggen</h2>
+          <input type="text" id="login-username" placeholder="Benutzername"required>
+          <input type="password" id="login-password" placeholder="Passwort"required>
+          <button onclick="onLogin()">Einloggen</button>
+          <a href="#" onclick="showRegister(); return false;" style="cursor:pointer; color:blue; text-decoration:underline;">
+            Registrieren</a>  <!-- Das ist der Klickable Text -->
+      </div>
+
+      <div class="register-popup" id="register-popup">
+          <h2>Registrieren</h2>
+          <input type="text" id="register-username" required placeholder="Benutzername"required>
+          <input type="text" id="register-firstname" required placeholder="Vorname"required>
+          <input type="text" id="register-lastname" required placeholder="Nachname"required>
+          <input type="email" id="register-mail" required placeholder="Mail"required>
+          <input type="password" id="register-password" required placeholder="Passwort"required>
+          <p id="password-error" style="color: red; font-size: 0.9rem;"></p>
+          <p class="password-length">Ihr Passwort muss mindestens 8 Zeichen lang sein!</p>
+          <button onclick="showLogin(); onRegister()">Account erstellen</button>
+      </div>
+    </main>
+
+    <footer class="footer"> <!-- Impressum -->
+      <div>
+        <button class="impressum-button" onclick="window.location.href='https://niclas-sieveneck.de/impressum/'">
+			    Impressum
+		    </button>
+
+        <button class="impressum-button" onclick="window.location.href='https://niclas-sieveneck.de/datenschutz/'">
+			    Datenschutz
+		    </button>
+      </div>
+    </footer>
+
+  </body>
+</html>

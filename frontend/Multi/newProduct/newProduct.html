@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="de">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Alles Taco – Produkt</title>
+    <link rel="stylesheet" href="/Multi/all.css">
+    <link rel="stylesheet" href="newProduct.css">
+  </head>
+
+  <body>
+    <header class="header"> 
+
+      <div class="logo">
+        <img id="logo" src="/Multi/Bilder/taco_logo.png" onclick="startsite()" alt="Alles Taco Logo">
+      </div>
+
+      <div class="search">
+          <input type="text" id="search-input" placeholder="Nach Artikeln suchen..." class="search-input">
+        <button class="search-button" onclick="suche()">🌮</button>
+      </div>
+
+      <div class="user-block"> 
+        <div class="user-info-block">
+          <div class="user-info" id="user-info">
+            Angemeldet als: Fehler 
+          </div>
+          <div class="user-role" id="user-role">
+            (Kein Konto erkannt)
+          </div>
+        </div>
+
+      <div class="dropdown">
+        <button class="action-button" onclick="toggleDropdown()">
+          <img src="/Multi/Bilder/dein_bild.png" alt="ActionKnopf">
+        </button>
+
+        <div id="dropdown-menu" class="dropdown-content">
+          <!-- Only seller -->
+          <div class="role-content" data-role-content="Verkäufer">
+            <a href="/Multi/userOverview/userOverview.html" data-role="Verkäufer">Benutzerinfo</a>
+            <a href="/Multi/Verkaeufer/verkaeufer.html" data-role="Verkäufer">Produktübersicht</a>
+            <a href="/Multi/verkauferVerkaufe/verkauferVerkaufe.html" data-role="Verkäufer">Verkäufe</a>
+            <a href="/Multi/Kaeufer/kaeufer.html" data-role="Käufer">Käufer</a>
+          </div>
+
+          <!-- Only buyer -->
+          <div class="role-content" data-role-content="Käufer">
+            <a href="/Multi/Kaeufer/kaeufer.html" data-role="Käufer">Startseite</a>
+            <a href="/Multi/userOverview/userOverview.html" data-role="Käufer">Benutzerinfo</a>
+            <a href="/Multi/orderHistory/orderHistory.html" data-role="Käufer">Bestellhistorie</a>
+            <a href="#" id="warenkorb">Warenkorb</a>
+            <a href="/Multi/Verkaeufer/verkaeufer.html" data-role="Verkäufer">Verkäufer</a>
+          </div>
+          <a href="#" id="logoff">Abmelden</a>
+        </div>
+      </div>
+    </header>
+<main>
+    <div class="detail-layout">
+      <form id="product-form">
+
+      <input type="file" id="image-upload" accept="image/*" required>
+      <img id="preview" src="" alt="Bildvorschau">
+      
+      <h2>Titel:</h2>
+
+      <input type="text" id="title" placeholder="Titel eingeben..." required>
+      
+      <h2>Beschreibung:</h2>
+
+      <textarea id="description" placeholder="Beschreibung eingeben..." rows="6" required></textarea>
+
+      <h2>Kategorie:</h2>
+
+      <input type="text" id="kategorie" placeholder="Kategorie eingeben..." required>
+
+      <h2>Preis:</h2>
+
+      <input type="number" id="price" step="0.01" min="0" placeholder="Preis in €" required>
+
+      <h2>Menge:</h2>
+
+      <input type="number" id="amount" step="1" min="1" placeholder="Menge" required>
+      
+      <button type="submit" class="save-button">Speichern</button> 
+      
+    </form>            
+  </div>
+    <div id="saveModal" class="modal">
+      <div class="modal-content">
+        <p>Der Artikel wurde erfolgreich gespeichert!</p>
+        <button id="backButton" onclick="window.location.href='/Multi/Verkaeufer/verkaeufer.html'">Zurück zur Startseite</button>
+  </div>
+</div>
+
+</main>
+
+
+<footer class="footer"> <!-- Impressum -->
+      <div>
+        <button class="impressum-button" onclick="window.location.href='https://niclas-sieveneck.de/impressum/'">
+            Impressum
+        </button>
+
+        <button class="impressum-button" onclick="window.location.href='https://niclas-sieveneck.de/datenschutz/'">
+            Datenschutz
+        </button>
+      </div>
+    </footer>
+    <script type="module" src="newProduct.js"></script>
+    <script type="module" src="/Multi/all.js" defer></script>
+  </body>
+</html>
+
+
