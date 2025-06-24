@@ -7,5 +7,6 @@ database/*
 !database/.gitignore
 venv/*
 frontend/
+frontend_test/
 backend/tests/test.py
 backend/test.py
